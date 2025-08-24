@@ -10,6 +10,7 @@ import { useGetMyWalletQuery } from "@/redux/features/wallet/wallet.api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { WithdrawMoneyModal } from "@/components/modules/User/WithdrawMoneyModal";
+import { CashoutModal } from "@/components/modules/User/CashoutModal";
 
 const UserDashboard = () => {
     const { data: userData, isLoading: userLoading } = useUserQuery();
@@ -87,12 +88,14 @@ const UserDashboard = () => {
                                 <h3 className="font-semibold text-2xl">Withdraw Money</h3>
                             </div>
                         </WithdrawMoneyModal>
-                        <div className={cn("border rounded-md p-5 bg-purple-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-purple-400 transition", {
-                            "pointer-events-none bg-gray-300": walletLoading || userLoading
-                        })}>
-                            <FaSignOutAlt className="h-10 w-10" />
-                            <h3 className="font-semibold text-2xl">Cash Out</h3>
-                        </div>
+                        <CashoutModal>
+                            <div className={cn("border rounded-md p-5 bg-purple-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-purple-400 transition", {
+                                "pointer-events-none bg-gray-300": walletLoading || userLoading
+                            })}>
+                                <FaSignOutAlt className="h-10 w-10" />
+                                <h3 className="font-semibold text-2xl">Cash Out</h3>
+                            </div>
+                        </CashoutModal>
                         <div className={cn("border rounded-md p-5 bg-cyan-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-cyan-400 transition", {
                             "pointer-events-none bg-gray-300": walletLoading || userLoading
                         })}>
