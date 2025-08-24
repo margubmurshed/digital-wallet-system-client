@@ -8,7 +8,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Link, useNavigate } from "react-router"
+import { Link, useLocation, useNavigate } from "react-router"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginFormSchema } from "@/validation"
@@ -23,6 +23,7 @@ export function LoginForm({
     ...props
 }: React.ComponentProps<"div">) {
     const [login, { isLoading: loginLoading }] = useLoginMutation();
+    const location = useLocation();
     const navigate = useNavigate();
     const form = useForm<z.infer<typeof loginFormSchema>>({
         resolver: zodResolver(loginFormSchema),
@@ -39,7 +40,7 @@ export function LoginForm({
 
             if (response.success) {
                 toast.success(response.message);
-                navigate("/", { replace: true });
+                navigate(location.state?.from || "/", { replace: true });
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
@@ -98,7 +99,7 @@ export function LoginForm({
                                 </div>
                                 <div className="text-center text-sm">
                                     Don&apos;t have an account?{" "}
-                                    <Link to="/register" className="underline underline-offset-4">
+                                    <Link to="/register" state={{ from: location.state }} className="underline underline-offset-4">
                                         Sign up
                                     </Link>
                                 </div>

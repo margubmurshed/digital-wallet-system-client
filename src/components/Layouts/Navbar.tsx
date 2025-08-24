@@ -1,13 +1,10 @@
-import { BookOpenIcon, InfoIcon, LifeBuoyIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
     NavigationMenu,
-    NavigationMenuContent,
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
-    NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
 import {
     Popover,
@@ -18,54 +15,58 @@ import Logo from "@/assets/icons/Logo"
 import { Link } from "react-router"
 import { authApi, useLogoutMutation, useUserQuery } from "@/redux/features/auth/auth.api"
 import { useAppDispatch } from "@/redux/hooks"
+import { userRoles } from "@/constants/role"
+import type { TRole } from "@/types"
+import { Skeleton } from "../ui/skeleton"
+import ButtonLoader from "../ButtonLoader"
 
 // Navigation links array to be used in both desktop and mobile menus
-const navigationLinks = [
-    { href: "#", label: "Home" },
-    {
-        label: "Features",
-        submenu: true,
-        type: "description",
-        items: [
-            {
-                href: "#",
-                label: "Components",
-                description: "Browse all components in the library.",
-            },
-            {
-                href: "#",
-                label: "Documentation",
-                description: "Learn how to use the library.",
-            },
-            {
-                href: "#",
-                label: "Templates",
-                description: "Pre-built layouts for common use cases.",
-            },
-        ],
-    },
-    {
-        label: "Pricing",
-        submenu: true,
-        type: "simple",
-        items: [
-            { href: "#", label: "Product A" },
-            { href: "#", label: "Product B" },
-            { href: "#", label: "Product C" },
-            { href: "#", label: "Product D" },
-        ],
-    },
-    {
-        label: "About",
-        submenu: true,
-        type: "icon",
-        items: [
-            { href: "#", label: "Getting Started", icon: "BookOpenIcon" },
-            { href: "#", label: "Tutorials", icon: "LifeBuoyIcon" },
-            { href: "#", label: "About Us", icon: "InfoIcon" },
-        ],
-    },
-]
+// const navigationLinks = [
+//     { href: "#", label: "Home" },
+//     {
+//         label: "Features",
+//         submenu: true,
+//         type: "description",
+//         items: [
+//             {
+//                 href: "#",
+//                 label: "Components",
+//                 description: "Browse all components in the library.",
+//             },
+//             {
+//                 href: "#",
+//                 label: "Documentation",
+//                 description: "Learn how to use the library.",
+//             },
+//             {
+//                 href: "#",
+//                 label: "Templates",
+//                 description: "Pre-built layouts for common use cases.",
+//             },
+//         ],
+//     },
+//     {
+//         label: "Pricing",
+//         submenu: true,
+//         type: "simple",
+//         items: [
+//             { href: "#", label: "Product A" },
+//             { href: "#", label: "Product B" },
+//             { href: "#", label: "Product C" },
+//             { href: "#", label: "Product D" },
+//         ],
+//     },
+//     {
+//         label: "About",
+//         submenu: true,
+//         type: "icon",
+//         items: [
+//             { href: "#", label: "Getting Started", icon: "BookOpenIcon" },
+//             { href: "#", label: "Tutorials", icon: "LifeBuoyIcon" },
+//             { href: "#", label: "About Us", icon: "InfoIcon" },
+//         ],
+//     },
+// ]
 
 export default function Navbar() {
     const { data, isLoading: userLoading } = useUserQuery(undefined);
@@ -80,6 +81,26 @@ export default function Navbar() {
             console.error("Logout failed", error);
         }
     }
+
+    const publicNavigationLinks = [
+        { href: "/", label: "Home" },
+        { href: "/about", label: "About" },
+        { href: "/features", label: "Features" },
+        { href: "/pricing", label: "Pricing" },
+        { href: "/Contact", label: "Contact" },
+        { href: "/faq", label: "FAQ" },
+    ]
+    const authNavigationLink = [
+        { href: "/dashboard", label: "Dashboard" },
+    ]
+    const navigationLinks = [
+        ...publicNavigationLinks
+    ]
+
+    if (Object.values(userRoles).includes(data?.data.role as TRole)) {
+        navigationLinks.push(...authNavigationLink)
+    }
+
     return (
         <header className="border-b border-primary/10 px-4 md:px-6">
             <div className="flex h-16 items-center justify-between gap-4">
@@ -125,7 +146,7 @@ export default function Navbar() {
                                 <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
                                     {navigationLinks.map((link, index) => (
                                         <NavigationMenuItem key={index} className="w-full">
-                                            {link.submenu ? (
+                                            {/* {link.submenu ? (
                                                 <>
                                                     <div className="text-muted-foreground px-2 py-1.5 text-xs font-medium">
                                                         {link.label}
@@ -144,11 +165,11 @@ export default function Navbar() {
                                                     </ul>
                                                 </>
                                             ) : (
-                                                <NavigationMenuLink href={link.href} className="py-1.5">
-                                                    {link.label}
-                                                </NavigationMenuLink>
-                                            )}
-                                            {/* Add separator between different types of items */}
+                                            )} */}
+                                            <NavigationMenuLink href={link.href} className="py-1.5">
+                                                {link.label}
+                                            </NavigationMenuLink>
+                                            {/* Add separator between different types of items
                                             {index < navigationLinks.length - 1 &&
                                                 // Show separator if:
                                                 // 1. One is submenu and one is simple link OR
@@ -165,7 +186,7 @@ export default function Navbar() {
                                                         aria-orientation="horizontal"
                                                         className="bg-border -mx-1 my-1 h-px w-full"
                                                     />
-                                                )}
+                                                )} */}
                                         </NavigationMenuItem>
                                     ))}
                                 </NavigationMenuList>
@@ -182,7 +203,7 @@ export default function Navbar() {
                             <NavigationMenuList className="gap-2">
                                 {navigationLinks.map((link, index) => (
                                     <NavigationMenuItem key={index}>
-                                        {link.submenu ? (
+                                        {/* {link.submenu ? (
                                             <>
                                                 <NavigationMenuTrigger className="text-muted-foreground hover:text-primary bg-transparent px-2 py-1.5 font-medium *:[svg]:-me-0.5 *:[svg]:size-3.5">
                                                     {link.label}
@@ -201,7 +222,7 @@ export default function Navbar() {
                                                                     href={item.href}
                                                                     className="py-1.5"
                                                                 >
-                                                                    {/* Display icon if present */}
+                                                                    
                                                                     {link.type === "icon" && "icon" in item && (
                                                                         <div className="flex items-center gap-2">
                                                                             {item.icon === "BookOpenIcon" && (
@@ -229,7 +250,7 @@ export default function Navbar() {
                                                                         </div>
                                                                     )}
 
-                                                                    {/* Display label with description if present */}
+                                                                    
                                                                     {link.type === "description" &&
                                                                         "description" in item ? (
                                                                         <div className="space-y-1">
@@ -241,7 +262,7 @@ export default function Navbar() {
                                                                             </p>
                                                                         </div>
                                                                     ) : (
-                                                                        // Display simple label if not icon or description type
+                                                                        
                                                                         !link.type ||
                                                                         (link.type !== "icon" &&
                                                                             link.type !== "description" && (
@@ -255,28 +276,41 @@ export default function Navbar() {
                                                 </NavigationMenuContent>
                                             </>
                                         ) : (
-                                            <NavigationMenuLink
-                                                href={link.href}
-                                                className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                                            >
-                                                {link.label}
-                                            </NavigationMenuLink>
-                                        )}
+                                        )} */}
+                                        <NavigationMenuLink
+                                            href={link.href}
+                                            className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                                        >
+                                            {link.label}
+                                        </NavigationMenuLink>
                                     </NavigationMenuItem>
                                 ))}
                             </NavigationMenuList>
                         </NavigationMenu>
+                        {userLoading && (
+                            <div className="flex items-center gap-4">
+                                {Array.from({ length: 2 }).map((_, i) => (
+                                    <div key={i} className="flex items-center gap-2">
+                                        {/* icon placeholder */}
+                                        <Skeleton className="h-4 w-4 rounded" />
+                                        {/* text placeholder */}
+                                        <Skeleton className="h-4 w-16 rounded" />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
                 {/* Right side */}
                 <div className="flex items-center gap-2">
                     {userLoading
-                        ? <Button variant="outline" size="sm" className="text-sm" disabled> User Loading...</Button>
+                        ? <Button variant="outline" size="sm" className="text-sm" disabled><ButtonLoader /></Button>
                         : (data?.data?.email)
                             ? (
                                 <>
-                                    <Button onClick={handleLogout} variant="outline" size="sm" className="text-sm" disabled={logoutLoading}>
-                                        {logoutLoading ? "Loading..." : "Logout"}
+                                    <Button onClick={handleLogout} variant="destructive" size="sm" className="text-sm cursor-pointer" disabled={logoutLoading}>
+                                        {logoutLoading ? <ButtonLoader /> : "Logout"}
+                                        <LogOut />
                                     </Button>
                                 </>
                             )

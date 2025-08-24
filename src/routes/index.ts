@@ -1,7 +1,11 @@
 import PrimaryLayout from "@/components/Layouts/PrimaryLayout";
+import { userRoles } from "@/constants/role";
+import Dashboard from "@/pages/Dashboard";
 import Landing from "@/pages/Landing";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
+import type { TRole } from "@/types";
+import { withAuth } from "@/utils/useAuth";
 import { createBrowserRouter } from "react-router";
 
 export const router = createBrowserRouter([
@@ -12,4 +16,5 @@ export const router = createBrowserRouter([
     },
     { path: "/login", Component: Login },
     { path: "/register", Component: Register },
+    { path: "/dashboard", Component: withAuth(Dashboard, Object.values(userRoles) as TRole[]) },
 ])

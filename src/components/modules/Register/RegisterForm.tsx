@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import EmailInput from "@/components/EmailInput"
-import { Link, useNavigate } from "react-router"
+import { Link, useLocation, useNavigate } from "react-router"
 import { userRoles } from "@/constants/role"
 import { registerFormSchema } from "@/validation"
 import { useRegisterMutation } from "@/redux/features/auth/auth.api"
@@ -24,6 +24,7 @@ export function RegisterForm({
     ...props
 }: React.ComponentProps<"div">) {
     const [isAgent, setIsAgent] = useState("off");
+    const location = useLocation();
     const [register, { isLoading: registerLoading }] = useRegisterMutation();
     const navigate = useNavigate();
 
@@ -48,7 +49,7 @@ export function RegisterForm({
             console.log(response);
 
             toast.success("User created successfully!");
-            navigate("/login");
+            navigate("/login", { state: location.state });
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
