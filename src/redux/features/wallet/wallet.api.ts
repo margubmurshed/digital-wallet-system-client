@@ -12,7 +12,7 @@ export const walletApi = baseApi.injectEndpoints({
                     method: "POST",
                     data: userInfo
                 }),
-                invalidatesTags: ["WALLET"]
+                invalidatesTags: ["WALLET", "TRANSACTION"]
             }),
             withdrawMoney: build.mutation<IResponse<ITransactionResponseData>, withdrawMoneyInfo>({
                 query: (userInfo) => ({
@@ -20,7 +20,7 @@ export const walletApi = baseApi.injectEndpoints({
                     method: "POST",
                     data: userInfo
                 }),
-                invalidatesTags: ["WALLET"]
+                invalidatesTags: ["WALLET", "TRANSACTION"]
             }),
             sendMoney: build.mutation<IResponse<ITransactionResponseData>, sendMoneyInfo>({
                 query: (userInfo) => ({
@@ -28,7 +28,7 @@ export const walletApi = baseApi.injectEndpoints({
                     method: "POST",
                     data: userInfo
                 }),
-                invalidatesTags: ["WALLET"]
+                invalidatesTags: ["WALLET", "TRANSACTION"]
             }),
             cashIn: build.mutation<IResponse<ITransactionResponseData>, cashinInfo>({
                 query: (userInfo) => ({
@@ -36,7 +36,7 @@ export const walletApi = baseApi.injectEndpoints({
                     method: "POST",
                     data: userInfo
                 }),
-                invalidatesTags: ["WALLET"]
+                invalidatesTags: ["WALLET", "TRANSACTION"]
             }),
             cashOut: build.mutation<IResponse<ITransactionResponseData>, cashoutInfo>({
                 query: (userInfo) => ({
@@ -44,7 +44,7 @@ export const walletApi = baseApi.injectEndpoints({
                     method: "POST",
                     data: userInfo
                 }),
-                invalidatesTags: ["WALLET"]
+                invalidatesTags: ["WALLET", "TRANSACTION"]
             }),
 
             getMyWallet: build.query<IResponse<IWalletData>, void>({

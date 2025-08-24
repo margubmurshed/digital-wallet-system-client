@@ -23,8 +23,16 @@ export interface cashinInfo {
 
 export interface ITransactionResponseData {
     type: string
-    from: null | string;
-    to: string
+    from: null | {
+        name:string;
+        phone: string;
+        _id: string;
+    };
+    to: null | {
+        name:string;
+        phone: string;
+        _id: string;
+    }
     initiatedBy: string
     amount: number
     fee: number

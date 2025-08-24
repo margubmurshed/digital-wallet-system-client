@@ -71,7 +71,7 @@ const UserDashboard = () => {
                                         <h3 className="font-semibold">Balance</h3>
                                         <div className="flex items-center gap-3">
                                             <span className="text-2xl">৳</span>
-                                            <p className="font-bold text-5xl">{formatAmount(wallet?.balance as number)}</p>
+                                            <p className="font-bold text-5xl">{formatAmount(wallet?.balance ? parseFloat(wallet.balance.toFixed(2)) : 0)}</p>
                                         </div>
                                     </div>
                                 )}
