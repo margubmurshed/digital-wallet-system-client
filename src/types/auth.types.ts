@@ -21,10 +21,10 @@ export interface IRegisterInfo {
 export interface IUpdateUserInfo {
     _id: string,
     name?: string
-    email?: string
     password?: string
-    phone?: string
-    address?: string
+    role?:"USER" | "AGENT" | "ADMIN" | "SUPER_ADMIN";
+    status?:"ACTIVE" | "BLOCKED";
+    commissionRate?: number;
 }
 
 export interface IRegisterResponseData {

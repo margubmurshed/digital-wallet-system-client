@@ -55,6 +55,13 @@ export const loginFormSchema = z.object({
 })
 
 
+export const updateUserZodSchema = registerFormSchema.partial().extend({
+    commissionRate: z.number().min(0).max(1).optional(),
+    isApproved: z.boolean().optional(),
+})
+.omit({phone: true, email: true});
+
+
 const amountSchema = z.number({
     error: 'Amount must be a number'
 })

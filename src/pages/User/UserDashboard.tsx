@@ -12,6 +12,14 @@ import { cn } from "@/lib/utils";
 import { WithdrawMoneyModal } from "@/components/modules/User/WithdrawMoneyModal";
 import { CashoutModal } from "@/components/modules/User/CashoutModal";
 import { SendMoneyModal } from "@/components/modules/User/SendMoneyModal";
+import {
+    Tabs,
+    TabsContent,
+    TabsList,
+    TabsTrigger,
+} from "@/components/ui/tabs"
+import Profile from "@/components/modules/User/Profile";
+import Transactions from "@/components/modules/User/Transactions";
 
 const UserDashboard = () => {
     const { data: userData, isLoading: userLoading } = useUserQuery();
@@ -46,7 +54,7 @@ const UserDashboard = () => {
                     </Badge>
                 </div>
             </div>
-            <div className="container mx-auto space-y-5 px-5 lg:p-0 mb-5">
+            <div className="container mx-auto space-y-10 px-5 lg:p-0 mb-5">
                 {/* stats */}
                 <div className="mt-40">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -59,7 +67,7 @@ const UserDashboard = () => {
                                 </>
                             )
                                 : (
-                                    <div className="border rounded-md p-5 bg-green-500 text-white">
+                                    <div className="border rounded-md p-5 bg-green-500 text-white shadow-md">
                                         <h3 className="font-semibold">Balance</h3>
                                         <div className="flex items-center gap-3">
                                             <span className="text-2xl">৳</span>
@@ -74,7 +82,7 @@ const UserDashboard = () => {
                     <h2 className="text-2xl font-semibold mb-3">Actions</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                         <AddMoneyModal>
-                            <div className={cn("border rounded-md p-5 bg-orange-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-orange-400 transition", {
+                            <div className={cn("border rounded-md p-5 bg-orange-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-orange-400 hover:scale-105 transition", {
                                 "pointer-events-none bg-gray-300": walletLoading || userLoading
                             })}>
                                 <PlusCircle className="h-10 w-10" />
@@ -82,7 +90,7 @@ const UserDashboard = () => {
                             </div>
                         </AddMoneyModal>
                         <WithdrawMoneyModal>
-                            <div className={cn("border rounded-md p-5 bg-red-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-red-400 transition", {
+                            <div className={cn("border rounded-md p-5 bg-red-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-red-400 hover:scale-105 transition", {
                                 "pointer-events-none bg-gray-300": walletLoading || userLoading
                             })}>
                                 <MinusCircle className="h-10 w-10" />
@@ -90,7 +98,7 @@ const UserDashboard = () => {
                             </div>
                         </WithdrawMoneyModal>
                         <CashoutModal>
-                            <div className={cn("border rounded-md p-5 bg-purple-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-purple-400 transition", {
+                            <div className={cn("border rounded-md p-5 bg-purple-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-purple-400 hover:scale-105 transition", {
                                 "pointer-events-none bg-gray-300": walletLoading || userLoading
                             })}>
                                 <FaSignOutAlt className="h-10 w-10" />
@@ -98,7 +106,7 @@ const UserDashboard = () => {
                             </div>
                         </CashoutModal>
                         <SendMoneyModal>
-                            <div className={cn("border rounded-md p-5 bg-cyan-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-cyan-400 transition", {
+                            <div className={cn("border rounded-md p-5 bg-cyan-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-cyan-400 hover:scale-105 transition", {
                                 "pointer-events-none bg-gray-300": walletLoading || userLoading
                             })}>
                                 <Send className="h-10 w-10" />
@@ -106,6 +114,20 @@ const UserDashboard = () => {
                             </div>
                         </SendMoneyModal>
                     </div>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                    <Tabs defaultValue="profile" className="w-full">
+                        <TabsList className="self-center">
+                            <TabsTrigger value="profile">Profile</TabsTrigger>
+                            <TabsTrigger value="transactions">Transaction History</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="profile">
+                            <Profile />
+                        </TabsContent>
+                        <TabsContent value="transactions">
+                            <Transactions />
+                        </TabsContent>
+                    </Tabs>
                 </div>
             </div>
         </div>
