@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { WithdrawMoneyModal } from "@/components/modules/User/WithdrawMoneyModal";
 import { CashoutModal } from "@/components/modules/User/CashoutModal";
+import { SendMoneyModal } from "@/components/modules/User/SendMoneyModal";
 
 const UserDashboard = () => {
     const { data: userData, isLoading: userLoading } = useUserQuery();
@@ -96,12 +97,14 @@ const UserDashboard = () => {
                                 <h3 className="font-semibold text-2xl">Cash Out</h3>
                             </div>
                         </CashoutModal>
-                        <div className={cn("border rounded-md p-5 bg-cyan-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-cyan-400 transition", {
-                            "pointer-events-none bg-gray-300": walletLoading || userLoading
-                        })}>
-                            <Send className="h-10 w-10" />
-                            <h3 className="font-semibold text-2xl">Send Money</h3>
-                        </div>
+                        <SendMoneyModal>
+                            <div className={cn("border rounded-md p-5 bg-cyan-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-cyan-400 transition", {
+                                "pointer-events-none bg-gray-300": walletLoading || userLoading
+                            })}>
+                                <Send className="h-10 w-10" />
+                                <h3 className="font-semibold text-2xl">Send Money</h3>
+                            </div>
+                        </SendMoneyModal>
                     </div>
                 </div>
             </div>
