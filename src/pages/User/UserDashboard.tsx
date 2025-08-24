@@ -1,7 +1,107 @@
+import FullPageLoader from "@/components/FullPageLoader";
+import { useUserQuery } from "@/redux/features/auth/auth.api";
+import bg from "@/assets/images/user-dashboard-background-image.jpg"
+import { Badge } from "@/components/ui/badge";
+import { BadgeCheckIcon, MinusCircle, PlusCircle, Send } from "lucide-react";
+import { formatAmount } from "@/utils/formatAmount";
+import { FaSignOutAlt } from "react-icons/fa";
+import { AddMoneyModal } from "@/components/modules/User/AddMoneyModal";
+import { useGetMyWalletQuery } from "@/redux/features/wallet/wallet.api";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
+import { WithdrawMoneyModal } from "@/components/modules/User/WithdrawMoneyModal";
+
 const UserDashboard = () => {
+    const { data: userData, isLoading: userLoading } = useUserQuery();
+    const { data: walletData, isLoading: walletLoading } = useGetMyWalletQuery();
+
+    if (userLoading) {
+        return <FullPageLoader />
+    }
+
+    const user = userData?.data;
+    const wallet = walletData?.data
+
     return (
         <div>
-            UserDashboard
+            <div className="border max-h-60 relative">
+                <img src={bg} alt="user-dashboard-bg-image" className="absolute w-full h-full bg-center" />
+                <div className="container mx-auto text-center gap-3 flex flex-col items-center mt-40 z-10 relative">
+                    <div className="w-32 h-32 rounded-full border-8 border-primary bg-background">
+                        <img
+                            src={"https://github.com/shadcn.png"}
+                            alt={`${user?.name}-profile-picture`}
+                            className="w-32 rounded-full"
+                        />
+                    </div>
+                    <h2 className="text-3xl font-bold">{user?.name}</h2>
+                    <Badge
+                        variant="secondary"
+                        className="bg-blue-500 text-white dark:bg-blue-600 capitalize"
+                    >
+                        <BadgeCheckIcon />
+                        {user?.role.split("_").join(" ").toLowerCase()}
+                    </Badge>
+                </div>
+            </div>
+            <div className="container mx-auto space-y-5 px-5 lg:p-0 mb-5">
+                {/* stats */}
+                <div className="mt-40">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                        {
+                            walletLoading ? (
+                                <>
+                                    {Array.from({ length: 4 }).map((_, i) => (
+                                        <Skeleton className="h-32 rounded-md" key={i} />
+                                    ))}
+                                </>
+                            )
+                                : (
+                                    <div className="border rounded-md p-5 bg-green-500 text-white">
+                                        <h3 className="font-semibold">Balance</h3>
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-2xl">৳</span>
+                                            <p className="font-bold text-5xl">{formatAmount(wallet?.balance as number)}</p>
+                                        </div>
+                                    </div>
+                                )}
+                    </div>
+                </div>
+                {/* actions */}
+                <div className="">
+                    <h2 className="text-2xl font-semibold mb-3">Actions</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <AddMoneyModal>
+                            <div className={cn("border rounded-md p-5 bg-orange-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-orange-400 transition", {
+                                "pointer-events-none bg-gray-300": walletLoading || userLoading
+                            })}>
+                                <PlusCircle className="h-10 w-10" />
+                                <h3 className="font-semibold text-2xl">Add Money</h3>
+                            </div>
+                        </AddMoneyModal>
+                        <WithdrawMoneyModal>
+                            <div className={cn("border rounded-md p-5 bg-red-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-red-400 transition", {
+                                "pointer-events-none bg-gray-300": walletLoading || userLoading
+                            })}>
+                                <MinusCircle className="h-10 w-10" />
+                                <h3 className="font-semibold text-2xl">Withdraw Money</h3>
+                            </div>
+                        </WithdrawMoneyModal>
+                        <div className={cn("border rounded-md p-5 bg-purple-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-purple-400 transition", {
+                            "pointer-events-none bg-gray-300": walletLoading || userLoading
+                        })}>
+                            <FaSignOutAlt className="h-10 w-10" />
+                            <h3 className="font-semibold text-2xl">Cash Out</h3>
+                        </div>
+                        <div className={cn("border rounded-md p-5 bg-cyan-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-cyan-400 transition", {
+                            "pointer-events-none bg-gray-300": walletLoading || userLoading
+                        })}>
+                            <Send className="h-10 w-10" />
+                            <h3 className="font-semibold text-2xl">Send Money</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
