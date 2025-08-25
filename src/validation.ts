@@ -2,8 +2,8 @@ import z from "zod";
 
 const phoneNumberSchema = z
     .string({ error: "Phone Number must be string" })
-    .regex(/^(?:\+8801\d{9}|01\d{9})$/, {
-        message: "Phone number must be valid for Bangladesh. Format: +8801XXXXXXXXX or 01XXXXXXXXX",
+    .regex(/^(?:\+?8801\d{9}|01\d{9})$/, {
+        message: "Phone number must be valid for Bangladesh. Format: +8801XXXXXXXXX/8801XXXXXXXXX/01XXXXXXXXX",
     })
     .transform((val) => {
         // Remove all non-digit characters for safety if needed (optional)
@@ -59,7 +59,7 @@ export const updateUserZodSchema = registerFormSchema.partial().extend({
     commissionRate: z.number().min(0).max(1).optional(),
     isApproved: z.boolean().optional(),
 })
-.omit({phone: true, email: true});
+    .omit({ phone: true, email: true });
 
 
 const amountSchema = z.number({
