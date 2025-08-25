@@ -5,8 +5,10 @@ import Landing from "@/pages/Landing";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import type { TRole } from "@/types";
+import { generateRoutes } from "@/utils/generateRoutes";
 import { withAuth } from "@/utils/useAuth";
 import { createBrowserRouter } from "react-router";
+import { adminSidebarItems } from "./adminSidebarItems";
 
 export const router = createBrowserRouter([
     {
@@ -16,5 +18,7 @@ export const router = createBrowserRouter([
     },
     { path: "/login", Component: Login },
     { path: "/register", Component: Register },
-    { path: "/dashboard", Component: withAuth(Dashboard, Object.values(userRoles) as TRole[]) },
+    { path: "/dashboard", Component: withAuth(Dashboard, Object.values(userRoles) as TRole[]), children: [
+        ...generateRoutes(adminSidebarItems)
+    ]},
 ])
