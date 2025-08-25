@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/tabs"
 import Profile from "@/components/modules/User/Profile";
 import Transactions from "@/components/modules/User/Transactions";
+import Navbar from "@/components/Layouts/Navbar";
 
 const UserDashboard = () => {
     const { data: userData, isLoading: userLoading } = useUserQuery();
@@ -34,6 +35,7 @@ const UserDashboard = () => {
 
     return (
         <div>
+            <Navbar />
             <div className="border max-h-60 relative">
                 <img src={bg} alt="user-dashboard-bg-image" className="absolute w-full h-full bg-center" />
                 <div className="container mx-auto text-center gap-3 flex flex-col items-center mt-40 z-10 relative">

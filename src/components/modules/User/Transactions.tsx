@@ -10,20 +10,25 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { SelectTrigger } from "@radix-ui/react-select";
 import { buttonVariants } from "@/components/ui/button";
+import { useUserQuery } from "@/redux/features/auth/auth.api";
 
 const Transactions = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [filterType, setFilterType] = useState("-createdAt");
     const [trxType, setTrxType] = useState<string | undefined>(undefined);
     const { data: transactions, isFetching: transactionsLoading } = useGetMyTransactionsQuery({ page: currentPage, fields: "-updatedAt", sortBy: filterType, type: trxType });
+    const { data: userData } = useUserQuery();
 
     console.log(transactions)
+    const trxTypes = [];
+    if (userData?.data.role === "USER") trxTypes.push("CASH_IN", "CASH_OUT", "SEND_MONEY", "ADD_MONEY", "WITHDRAW")
+    else if (userData?.data.role === "AGENT") trxTypes.push("CASH_IN", "CASH_OUT");
 
     return (
         <div className="w-full p-6 bg-background text-foreground mx-auto">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col lg:flex-row items-center justify-between mb-4">
                 <h1 className="text-2xl font-bold">My Transactions</h1>
-                <div className="space-x-3">
+                <div className="space-x-3 mt-5 lg:mt-0">
                     <Select onValueChange={value => setFilterType(value)} value={filterType || ""} disabled={transactionsLoading}>
                         <SelectTrigger className={`cursor-pointer ${buttonVariants({ variant: "outline", size: "default" })}`}>
                             <SelectValue placeholder="Select a division" />
@@ -48,21 +53,11 @@ const Transactions = () => {
                             <SelectItem value="all">
                                 All Types
                             </SelectItem>
-                            <SelectItem value="CASH_IN">
-                                Cash In
-                            </SelectItem>
-                            <SelectItem value="CASH_OUT">
-                                Cash Out
-                            </SelectItem>
-                            <SelectItem value="ADD_MONEY">
-                                Add Money
-                            </SelectItem>
-                            <SelectItem value="WITHDRAW">
-                                Withdraw Money
-                            </SelectItem>
-                            <SelectItem value="SEND_MONEY">
-                                Send Money
-                            </SelectItem>
+                            {trxTypes.map(trxType => (
+                                <SelectItem value={trxType} className="capitalize">
+                                    {trxType.split("_").join(" ").toLowerCase()}
+                                </SelectItem>
+                            ))}
                         </SelectContent>
                     </Select>
                 </div>
