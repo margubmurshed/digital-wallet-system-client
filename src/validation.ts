@@ -59,7 +59,7 @@ export const updateUserZodSchema = registerFormSchema.partial().extend({
     commissionRate: z.number().min(0).max(1).optional(),
     isApproved: z.boolean().optional(),
 })
-    .omit({ phone: true, email: true });
+    .omit({ email: true });
 
 
 const amountSchema = z.number({

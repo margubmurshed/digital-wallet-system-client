@@ -2,9 +2,8 @@ import FullPageLoader from "@/components/FullPageLoader";
 import { useUserQuery } from "@/redux/features/auth/auth.api";
 import bg from "@/assets/images/user-dashboard-background-image.jpg"
 import { Badge } from "@/components/ui/badge";
-import { BadgeCheckIcon, Send } from "lucide-react";
+import { BadgeCheckIcon, PlusCircle } from "lucide-react";
 import { formatAmount } from "@/utils/formatAmount";
-import { FaSignOutAlt } from "react-icons/fa";
 import { useGetMyWalletQuery } from "@/redux/features/wallet/wallet.api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
@@ -16,6 +15,9 @@ import {
 } from "@/components/ui/tabs"
 import Profile from "@/components/modules/User/Profile";
 import Transactions from "@/components/modules/User/Transactions";
+import Navbar from "@/components/Layouts/Navbar";
+import { CashInModal } from "@/components/modules/Agent/CashInModal";
+import Footer from "@/components/Layouts/Footer";
 
 const AgentDashboard = () => {
     const { data: userData, isLoading: userLoading } = useUserQuery();
@@ -30,6 +32,7 @@ const AgentDashboard = () => {
 
     return (
         <div>
+            <Navbar />
             <div className="border max-h-60 relative">
                 <img src={bg} alt="user-dashboard-bg-image" className="absolute w-full h-full bg-center" />
                 <div className="container mx-auto text-center gap-3 flex flex-col items-center mt-40 z-10 relative">
@@ -78,21 +81,15 @@ const AgentDashboard = () => {
                     <h2 className="text-2xl font-semibold mb-3">Actions</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
 
+                        <CashInModal>
                             <div className={cn("border rounded-md p-5 bg-purple-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-purple-400 hover:scale-105 transition", {
                                 "pointer-events-none bg-gray-300": walletLoading || userLoading
                             })}>
-                                <FaSignOutAlt className="h-10 w-10" />
-                                <h3 className="font-semibold text-2xl">Cash Out</h3>
+                                <PlusCircle className="h-10 w-10" />
+                                <h3 className="font-semibold text-2xl">Cash In</h3>
                             </div>
-                       
-                      
-                            <div className={cn("border rounded-md p-5 bg-cyan-500 text-white flex flex-col items-center gap-3 cursor-pointer select-none hover:bg-cyan-400 hover:scale-105 transition", {
-                                "pointer-events-none bg-gray-300": walletLoading || userLoading
-                            })}>
-                                <Send className="h-10 w-10" />
-                                <h3 className="font-semibold text-2xl">Send Money</h3>
-                            </div>
-                      
+                        </CashInModal>
+
                     </div>
                 </div>
                 <div className="flex flex-col items-center gap-3">
@@ -110,6 +107,7 @@ const AgentDashboard = () => {
                     </Tabs>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 };

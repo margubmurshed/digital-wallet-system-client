@@ -21,6 +21,7 @@ import {
 import Profile from "@/components/modules/User/Profile";
 import Transactions from "@/components/modules/User/Transactions";
 import Navbar from "@/components/Layouts/Navbar";
+import Footer from "@/components/Layouts/Footer";
 
 const UserDashboard = () => {
     const { data: userData, isLoading: userLoading } = useUserQuery();
@@ -132,6 +133,7 @@ const UserDashboard = () => {
                     </Tabs>
                 </div>
             </div>
+            <Footer/>
         </div>
     );
 };

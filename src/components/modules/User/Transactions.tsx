@@ -19,7 +19,6 @@ const Transactions = () => {
     const { data: transactions, isFetching: transactionsLoading } = useGetMyTransactionsQuery({ page: currentPage, fields: "-updatedAt", sortBy: filterType, type: trxType });
     const { data: userData } = useUserQuery();
 
-    console.log(transactions)
     const trxTypes = [];
     if (userData?.data.role === "USER") trxTypes.push("CASH_IN", "CASH_OUT", "SEND_MONEY", "ADD_MONEY", "WITHDRAW")
     else if (userData?.data.role === "AGENT") trxTypes.push("CASH_IN", "CASH_OUT");
@@ -46,7 +45,7 @@ const Transactions = () => {
                         if (value === "all") setTrxType(undefined)
                         else setTrxType(value)
                     }} value={trxType || "all"} disabled={transactionsLoading}>
-                        <SelectTrigger className={`cursor-pointer ${buttonVariants({ variant: "default", size: "default" })}`}>
+                        <SelectTrigger className={`cursor-pointer capitalize ${buttonVariants({ variant: "default", size: "default" })}`}>
                             <SelectValue placeholder="Select a transaction type" />
                         </SelectTrigger>
                         <SelectContent>
@@ -62,14 +61,15 @@ const Transactions = () => {
                     </Select>
                 </div>
             </div>
-            <div>
+            {(transactions?.data.length || transactionsLoading) ? <div>
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="w-[100px]">Type</TableHead>
-                            <TableHead>Account</TableHead>
                             <TableHead>TrxID</TableHead>
+                            <TableHead>Account</TableHead>
+                            <TableHead className="w-[100px]">Type</TableHead>
                             <TableHead>{`Amount (৳)`}</TableHead>
+                            <TableHead>{`Fee (৳)`}</TableHead>
                             <TableHead>Time</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -86,25 +86,28 @@ const Transactions = () => {
                             : (
                                 transactions?.data.map((transaction) => (
                                     <TableRow key={transaction._id}>
-                                        <TableCell className="w-1/2 capitalize">{transaction.type.split("_").join(" ").toLowerCase()}</TableCell>
+                                        <TableCell className="w-1/2">{transaction._id}</TableCell>
                                         <TableCell className="w-1/2 space-y-2">
-                                            <p className="font-semibold">{transaction.type === "CASH_IN" ? transaction.from?.name : transaction.to?.name}</p>
+                                            <p className="font-semibold">{transaction.to?._id === userData?.data._id ? transaction.from?.name : transaction.to?.name}</p>
                                             <p>
                                                 <Badge
                                                     variant="secondary"
                                                     className="bg-blue-500 text-white dark:bg-blue-600 capitalize"
                                                 >
                                                     <Phone className="mr-1" />
-                                                    {transaction.type === "CASH_IN" ? transaction.from?.phone : transaction.to?.phone}
+                                                    {transaction.to?._id === userData?.data._id ? transaction.from?.phone : transaction.to?.phone}
                                                 </Badge>
                                             </p>
                                         </TableCell>
-                                        <TableCell className="w-1/2">{transaction._id}</TableCell>
+                                        <TableCell className="w-1/2 capitalize">{transaction.type.split("_").join(" ").toLowerCase()}</TableCell>
                                         <TableCell className={cn("w-1/2 text-red-500 font-semibold", {
                                             "text-green-500": transaction.type === "ADD_MONEY" || transaction.type === "CASH_IN"
                                         })}>
                                             {transaction.type === "ADD_MONEY" || transaction.type === "CASH_IN" ? "+ " : "- "}
                                             {transaction.amount.toFixed(2)}
+                                        </TableCell>
+                                        <TableCell className="w-1/2">
+                                            {transaction.fee}
                                         </TableCell>
                                         <TableCell className="w-1/2">
                                             {format(new Date(transaction.createdAt), "hh:mm a, dd MMM yyyy")}
@@ -151,7 +154,7 @@ const Transactions = () => {
                         </div>
                     </div>
                 )}
-            </div>
+            </div> : <p className="text-center">No Transaction Found</p>}
         </div>
     );
 };
