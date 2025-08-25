@@ -4,9 +4,9 @@ import { generateRoutes } from "@/utils/generateRoutes";
 import { withAuth } from "@/utils/useAuth";
 import { lazy } from "react";
 
-const Users = lazy(() => import("@/components/modules/Admin/Users"));
-const Agents = lazy(() => import("@/components/modules/Admin/Agents"));
-const Transactions = lazy(() => import("@/components/modules/Admin/Transactions"));
+const Users = lazy(() => import("@/pages/Admin/Users"));
+const Agents = lazy(() => import("@/pages/Admin/Agents"));
+const Transactions = lazy(() => import("@/pages/Admin/Transactions"));
 const Profile = lazy(() => import("@/components/modules/User/Profile"));
 
 
