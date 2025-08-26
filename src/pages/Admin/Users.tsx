@@ -18,11 +18,6 @@ const Users = () => {
     const [filterType, setFilterType] = useState("-createdAt");
     const { data: users, isFetching: usersLoading } = useGetUsersQuery({ page: currentPage, fields: "-updatedAt", sortBy: filterType });
     const [updateUser, { isLoading: updateUserLoading }] = useUpdateUserMutation();
-    // const { data: myData } = useUserQuery();
-
-    // const trxTypes = [];
-    // if (myData?.data.role === "USER") trxTypes.push("CASH_IN", "CASH_OUT", "SEND_MONEY", "ADD_MONEY", "WITHDRAW")
-    // else if (myData?.data.role === "AGENT") trxTypes.push("CASH_IN", "CASH_OUT");
 
     const handleStatusUpdate = async (_id: string, value: string) => {
         const updateUserData = {
