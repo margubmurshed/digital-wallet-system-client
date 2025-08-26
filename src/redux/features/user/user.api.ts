@@ -1,11 +1,11 @@
 import { baseApi } from "@/redux/baseApi";
-import type { IRegisterResponseData, IResponse } from "@/types";
+import type { IAllDataResponse, IRegisterResponseData } from "@/types";
 
 export const userApi = baseApi.injectEndpoints({
     endpoints(build) {
         return {
 
-            getAllUsers: build.query<IResponse<IRegisterResponseData[]>, unknown>({
+            getAllUsers: build.query<IAllDataResponse<IRegisterResponseData[]>, unknown>({
                 query: (params) => ({
                     url: "/user",
                     method: "GET",
@@ -13,7 +13,7 @@ export const userApi = baseApi.injectEndpoints({
                 }),
                 providesTags: ["USER"]
             }),
-            getUsers: build.query<IResponse<IRegisterResponseData[]>, unknown>({
+            getUsers: build.query<IAllDataResponse<IRegisterResponseData[]>, unknown>({
                 query: (params) => ({
                     url: "/user/users",
                     method: "GET",
@@ -21,7 +21,7 @@ export const userApi = baseApi.injectEndpoints({
                 }),
                 providesTags: ["USER"]
             }),
-            getAgents: build.query<IResponse<IRegisterResponseData[]>, unknown>({
+            getAgents: build.query<IAllDataResponse<IRegisterResponseData[]>, unknown>({
                 query: (params) => ({
                     url: "/user/agents",
                     method: "GET",

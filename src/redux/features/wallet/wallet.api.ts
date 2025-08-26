@@ -1,6 +1,5 @@
 import { baseApi } from "@/redux/baseApi";
 import type { IRegisterResponseData, IResponse } from "@/types";
-import type { IUpdateUserInfo } from "@/types/auth.types";
 import type { addMoneyInfo, cashinInfo, cashoutInfo, ITransactionResponseData, IWalletData, sendMoneyInfo, withdrawMoneyInfo } from "@/types/wallet.types";
 
 export const walletApi = baseApi.injectEndpoints({
@@ -61,21 +60,21 @@ export const walletApi = baseApi.injectEndpoints({
                 }),
                 providesTags: ["WALLET"]
             }),
-            getSingleUserWallet: build.query<IResponse<IWalletData>, void>({
+            getSingleUserWallet: build.query<IResponse<IWalletData>, string>({
                 query: (userID) => ({
                     url: `/wallet/${userID}`,
                     method: "GET"
                 }),
                 providesTags: ["WALLET"]
             }),
-            blockWallet: build.mutation<IResponse<IRegisterResponseData>, IUpdateUserInfo>({
+            blockWallet: build.mutation<IResponse<IRegisterResponseData>, string>({
                 query: (userID) => ({
                     url: `/wallet/${userID}/block`,
                     method: "PATCH",
                 }),
                 invalidatesTags: ["WALLET"]
             }),
-            unBlockWallet: build.mutation<IResponse<IRegisterResponseData>, IUpdateUserInfo>({
+            unBlockWallet: build.mutation<IResponse<IRegisterResponseData>, string>({
                 query: (userID) => ({
                     url: `/wallet/${userID}/unblock`,
                     method: "PATCH",
