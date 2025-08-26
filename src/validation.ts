@@ -21,7 +21,7 @@ const phoneNumberSchema = z
         return val;
     })
 
-const passwordSchema = z
+export const passwordSchema = z
     .string({ error: "Password must be string" })
     .min(8, { message: "Password must be at least 8 characters long." })
     .regex(/^(?=.*[A-Z])/, {
@@ -33,6 +33,10 @@ const passwordSchema = z
     .regex(/^(?=.*\d)/, {
         message: "Password must contain at least 1 number.",
     })
+
+export const updatePasswordSchema = z.object({
+    password: passwordSchema
+})
 
 export const registerFormSchema = z.object({
     name: z

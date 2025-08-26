@@ -11,35 +11,40 @@ import {
 } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label";
 import { useUpdateUserMutation, useUserQuery } from "@/redux/features/auth/auth.api";
-import { updateUserZodSchema } from "@/validation";
+import { updatePasswordSchema, updateUserZodSchema } from "@/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type z from "zod";
+import z from "zod";
 
 function Profile() {
     const { data: userData, isLoading: userLoading } = useUserQuery();
     const [updateUser, { isLoading: updateUserLoading }] = useUpdateUserMutation();
-    const [password, setPassword] = useState("");
-    const form = useForm({
+    // const [password, setPassword] = useState("");
+    const profileForm = useForm({
         resolver: zodResolver(updateUserZodSchema),
         defaultValues: {
             name: "",
             phone: "",
         }
     })
+    const passwordForm = useForm({
+        resolver: zodResolver(updatePasswordSchema),
+        defaultValues: {
+            password: ""
+        }
+    })
 
     useEffect(() => {
         if (userData?.data) {
-            form.reset({
+            profileForm.reset({
                 name: userData.data.name,
                 phone: userData.data.phone
             })
         }
-    }, [form, userData])
+    }, [profileForm, userData])
 
     const onSubmit = async (values: z.infer<typeof updateUserZodSchema>) => {
         const updateUserData = {
@@ -51,6 +56,7 @@ function Profile() {
 
             if (response.success) {
                 toast.success(response.message);
+                passwordForm.reset({password:""})
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
@@ -68,12 +74,12 @@ function Profile() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} id="profile-form">
+                    <Form {...profileForm}>
+                        <form onSubmit={profileForm.handleSubmit(onSubmit)} id="profile-form">
                             <div className="flex flex-col gap-6">
                                 <div className="grid gap-3">
                                     <FormField
-                                        control={form.control}
+                                        control={profileForm.control}
                                         name="name"
                                         render={({ field }) => (
                                             <FormItem>
@@ -91,7 +97,7 @@ function Profile() {
                                 </div>
                                 <div className="grid gap-3">
                                     <FormField
-                                        control={form.control}
+                                        control={profileForm.control}
                                         name="phone"
                                         render={({ field }) => (
                                             <FormItem>
@@ -109,7 +115,7 @@ function Profile() {
                     </Form>
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
-                    <Button type="submit" className="w-full" form="profile-form" disabled={updateUserLoading || userLoading}>
+                    <Button type="submit" className="w-full" form="profile-form" disabled={updateUserLoading || userLoading || !profileForm.formState.isDirty}>
                         Update Profile
                     </Button>
                 </CardFooter>
@@ -122,13 +128,30 @@ function Profile() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="grid gap-3">
-                        <Label>Password</Label>
-                        <RegisterPasswordInput value={password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} />
-                    </div>
+                    <Form {...passwordForm}>
+                        <form onSubmit={passwordForm.handleSubmit(onSubmit)} id="update-password-form">
+                            <div className="grid gap-3">
+                                <FormField
+                                    control={passwordForm.control}
+                                    name="password"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Password</FormLabel>
+                                            <FormControl>
+                                                <RegisterPasswordInput
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                        </form>
+                    </Form>
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
-                    <Button type="button" className="w-full" onClick={() => onSubmit({ password })} disabled={updateUserLoading || userLoading}>
+                    <Button type="submit" form="update-password-form" className="w-full" disabled={updateUserLoading || userLoading || !passwordForm.formState.isDirty}>
                         Update Password
                     </Button>
                 </CardFooter>
