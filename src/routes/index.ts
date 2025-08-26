@@ -9,6 +9,7 @@ import { generateRoutes } from "@/utils/generateRoutes";
 import { withAuth } from "@/utils/useAuth";
 import { createBrowserRouter } from "react-router";
 import { adminSidebarItems } from "./adminSidebarItems";
+import DashboardIndex from "@/pages/Admin/DashboardIndex";
 
 export const router = createBrowserRouter([
     {
@@ -18,7 +19,10 @@ export const router = createBrowserRouter([
     },
     { path: "/login", Component: Login },
     { path: "/register", Component: Register },
-    { path: "/dashboard", Component: withAuth(Dashboard, Object.values(userRoles) as TRole[]), children: [
-        ...generateRoutes(adminSidebarItems)
-    ]},
+    {
+        path: "/dashboard", Component: withAuth(Dashboard, Object.values(userRoles) as TRole[]), children: [
+            { index: true, Component: DashboardIndex },
+            ...generateRoutes(adminSidebarItems)
+        ]
+    },
 ])
