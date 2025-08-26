@@ -19,6 +19,7 @@ import { userRoles } from "@/constants/role"
 import type { TRole } from "@/types"
 import { Skeleton } from "../ui/skeleton"
 import ButtonLoader from "../ButtonLoader"
+import { ModeToggler } from "../ModeToggler"
 
 // Navigation links array to be used in both desktop and mobile menus
 // const navigationLinks = [
@@ -303,6 +304,7 @@ export default function Navbar() {
                 </div>
                 {/* Right side */}
                 <div className="flex items-center gap-2">
+                    <ModeToggler />
                     {userLoading
                         ? <Button variant="outline" size="sm" className="text-sm" disabled><ButtonLoader /></Button>
                         : (data?.data?.email)
