@@ -57,10 +57,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
         <Sidebar {...props}>
             <SidebarHeader>
-                <div className="flex flex-col items-center justify-center gap-1">
+                <Link to="/" className="flex flex-col items-center justify-center gap-1">
                     <Logo />
                     <h2 className="font-bold">Digital Wallet System</h2>
-                </div>
+                </Link>
             </SidebarHeader>
             <SidebarContent>
                 {/* We create a SidebarGroup for each parent. */}

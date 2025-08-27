@@ -20,6 +20,8 @@ import type { TRole } from "@/types"
 import { Skeleton } from "../ui/skeleton"
 import ButtonLoader from "../ButtonLoader"
 import { ModeToggler } from "../ModeToggler"
+import { useEffect } from "react"
+import { createLandingTour } from "@/driverTour"
 
 // Navigation links array to be used in both desktop and mobile menus
 // const navigationLinks = [
@@ -73,6 +75,15 @@ export default function Navbar() {
     const { data, isLoading: userLoading } = useUserQuery(undefined);
     const [logout, { isLoading: logoutLoading }] = useLogoutMutation();
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        const showTour = localStorage.getItem("tour_landing");
+        if (data?.data && !userLoading && !showTour) {
+            const tour = createLandingTour();
+            tour.drive();
+            localStorage.setItem("tour_landing", "false")
+        }
+    }, [data?.data, userLoading])
 
     const handleLogout = async () => {
         try {
