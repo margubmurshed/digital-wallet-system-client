@@ -147,7 +147,14 @@ const Users = () => {
                                     <TableRow key={user._id}>
                                         <TableCell className="w-1/2">{user._id}</TableCell>
                                         <TableCell className="w-1/2 space-y-2">{user.name}</TableCell>
-                                        <TableCell className="w-1/2 capitalize">{user.role.split("_").join(" ").toLowerCase()}</TableCell>
+                                        <TableCell className="w-1/2">
+                                            <Badge
+                                                variant="secondary"
+                                                className="text-white bg-blue-600 capitalize"
+                                            >
+                                                {user.role.split("_").join(" ").toLowerCase()}
+                                            </Badge>
+                                            {user.role.split("_").join(" ").toLowerCase()}</TableCell>
                                         <TableCell className="w-1/2">{user.email}</TableCell>
                                         <TableCell className="w-1/2">{user.phone}</TableCell>
                                         <TableCell className="w-1/2" id="update-status">

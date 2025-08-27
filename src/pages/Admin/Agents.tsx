@@ -150,7 +150,7 @@ const Agents = () => {
                                         <TableCell className="w-1/2 capitalize">
                                             <Badge
                                                 variant="secondary"
-                                                className="bg-[#ac46fe] text-white dark:bg-blue-600 capitalize"
+                                                className="bg-[#ac46fe] text-white capitalize"
                                             >
                                                 {agent.role.split("_").join(" ").toLowerCase()}
                                             </Badge>
