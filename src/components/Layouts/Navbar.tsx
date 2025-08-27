@@ -115,7 +115,7 @@ export default function Navbar() {
 
     return (
         <header className="p-2 fixed w-full top-0 z-50">
-            <div className="border border-white/20 dark:border-white/10 px-4 md:px-6 shadow-md bg-white/30 dark:bg-black/30 backdrop-blur-lg rounded-full">
+            <div className="border px-4 md:px-6 shadow-md bg-white/30 dark:bg-black/30 backdrop-blur-lg rounded-full">
                 <div className="flex h-16 items-center justify-between gap-4" id="nav-menu">
                     {/* Left side */}
                     <div className="flex items-center gap-2">
@@ -208,9 +208,9 @@ export default function Navbar() {
                         </Popover>
                         {/* Main nav */}
                         <div className="flex items-center gap-6">
-                            <a href="#" className="text-primary hover:text-primary/90">
+                            <Link to="/" className="text-primary hover:text-primary/90">
                                 <Logo />
-                            </a>
+                            </Link>
                             {/* Navigation menu */}
                             <NavigationMenu viewport={false} className="max-md:hidden">
                                 <NavigationMenuList className="gap-2">
@@ -291,10 +291,10 @@ export default function Navbar() {
                                         ) : (
                                         )} */}
                                             <NavigationMenuLink
-                                                href={link.href}
                                                 className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                                                asChild
                                             >
-                                                {link.label}
+                                                <Link to={link.href}>{link.label}</Link>
                                             </NavigationMenuLink>
                                         </NavigationMenuItem>
                                     ))}

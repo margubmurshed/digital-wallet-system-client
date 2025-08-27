@@ -4,14 +4,16 @@ import { cn } from "@/lib/utils";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import Logo from "@/assets/icons/Logo";
-import LandingImage1 from "@/assets/images/landing-image-1.png";
+// import LandingImage1 from "@/assets/images/landing-image-1.png";
+import WalletImage from "@/assets/images/undraw_stripe-payments_jxnn.svg"
 import { Link } from "react-router";
 import ShimmerButton from "@/components/ShimmerButton";
+import BlurInText from "@/components/BlurInText";
 
 const Hero = () => {
     return (
         <section>
-            <div className="min-h-screen w-full relative bg-white py-20">
+            <div className="min-h-screen w-full relative bg-white py-10">
                 {/* Cool Blue Glow Top */}
                 <div
                     className="absolute inset-0 z-0 dark:hidden"
@@ -36,18 +38,21 @@ const Hero = () => {
                 />
 
                 <div className="relative z-10 container mx-auto px-5 lg:px-0">
-                    <div className="mx-auto max-w-5xl grid grid-cols-1 lg:grid-cols-2">
-                        <div className="flex flex-col items-center gap-6 text-center">
+                    <div className="mx-auto max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-10">
+                        <div className="flex flex-col items-center lg:items-start gap-6 text-center">
                             <div className="rounded-xl bg-background/30 p-4 shadow-sm backdrop-blur-sm">
                                 <Logo />
                             </div>
-                            <div>
-                                <h1 className="mb-6 text-2xl font-bold tracking-tight text-pretty lg:text-5xl">
+                            <div className="lg:text-left">
+                                {/* <h1 className="mb-6 text-2xl font-bold tracking-tight text-pretty lg:text-5xl">
                                     Your Money. Anytime, {" "}
                                     <span className="text-primary">Anywhere.</span>
-                                </h1>
-                                <p className="mx-auto max-w-3xl text-muted-foreground lg:text-xl">
-                                    A secure, fast, and reliable digital wallet to send, receive, and manage money — whether you’re a user, agent, or admin.
+                                </h1> */}
+                                <div>
+                                    <BlurInText text="Your Money. Anytime, Anywhere."/>
+                                </div>
+                                <p className="mx-auto max-w-3xl text-muted-foreground lg:text-lg">
+                                    Experience a modern way to manage your finances. Whether you’re paying bills, sending money to family, or managing business transactions — we’ve got you covered.
                                 </p>
                             </div>
                             <div className="mt-6 flex justify-center gap-3">
@@ -63,7 +68,7 @@ const Hero = () => {
                             </div>
                         </div>
                         <div>
-                            <img src={LandingImage1} alt="landing-image-1" className="w-full" />
+                            <img src={WalletImage} alt="landing-image-1" className="w-full" />
                         </div>
                     </div>
                     <div className="mt-20 flex flex-col items-center gap-5">
@@ -72,20 +77,20 @@ const Hero = () => {
                         </p>
                         <div className="flex flex-wrap items-center justify-center gap-4">
                             <a
-                                href="#"
+                                href="https://ui.shadcn.com/"
                                 className={cn(
                                     buttonVariants({ variant: "outline" }),
                                     "group flex aspect-square h-12 items-center justify-center p-0",
                                 )}
                             >
                                 <img
-                                    src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcn-ui-icon.svg"
+                                    src="https://cdn-b.saashub.com/images/app/service_logos/278/44urh1su7a9c/large.png?1727901233"
                                     alt="shadcn/ui logo"
                                     className="h-6 saturate-0 transition-all group-hover:saturate-100"
                                 />
                             </a>
                             <a
-                                href="#"
+                                href="https://www.typescriptlang.org/"
                                 className={cn(
                                     buttonVariants({ variant: "outline" }),
                                     "group flex aspect-square h-12 items-center justify-center p-0",
@@ -99,7 +104,7 @@ const Hero = () => {
                             </a>
 
                             <a
-                                href="#"
+                                href="https://react.dev/"
                                 className={cn(
                                     buttonVariants({ variant: "outline" }),
                                     "group flex aspect-square h-12 items-center justify-center p-0",
@@ -112,7 +117,7 @@ const Hero = () => {
                                 />
                             </a>
                             <a
-                                href="#"
+                                href="https://tailwindcss.com/"
                                 className={cn(
                                     buttonVariants({ variant: "outline" }),
                                     "group flex aspect-square h-12 items-center justify-center p-0",
@@ -120,6 +125,19 @@ const Hero = () => {
                             >
                                 <img
                                     src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/tailwind-icon.svg"
+                                    alt="Tailwind CSS logo"
+                                    className="h-6 saturate-0 transition-all group-hover:saturate-100"
+                                />
+                            </a>
+                            <a
+                                href="https://redux-toolkit.js.org/"
+                                className={cn(
+                                    buttonVariants({ variant: "outline" }),
+                                    "group flex aspect-square h-12 items-center justify-center p-0",
+                                )}
+                            >
+                                <img
+                                    src="https://cdn.worldvectorlogo.com/logos/redux.svg"
                                     alt="Tailwind CSS logo"
                                     className="h-6 saturate-0 transition-all group-hover:saturate-100"
                                 />

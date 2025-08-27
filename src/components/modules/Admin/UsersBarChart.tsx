@@ -29,7 +29,7 @@ export function UsersBarChart() {
             color: "#01c850",
         },
     } satisfies ChartConfig;
-    const description = `${format(subDays(new Date(), 7), "dd MMM yyyy")} - ${format(new Date(), "dd MMM yyyy")}`;
+    const description = `${format(subDays(new Date(), 6), "dd MMM yyyy")} - ${format(new Date(), "dd MMM yyyy")}`;
     const usersData = stats?.usersPerDay.map(upd => ({
         key: upd.date,
         users: upd.count

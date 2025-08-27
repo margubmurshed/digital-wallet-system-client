@@ -29,7 +29,7 @@ export function TransactionsBarChart() {
             color: "#fe6901",
         },
     } satisfies ChartConfig;
-    const description = `${format(subDays(new Date(), 7), "dd MMM yyyy")} - ${format(new Date(), "dd MMM yyyy")}`;
+    const description = `${format(subDays(new Date(), 6), "dd MMM yyyy")} - ${format(new Date(), "dd MMM yyyy")}`;
     const transactionsData = stats?.transactionsPerDay.map(upd => ({
         key: upd.date,
         transactions: upd.count
@@ -38,7 +38,7 @@ export function TransactionsBarChart() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Admins</CardTitle>
+                <CardTitle>Transactions</CardTitle>
                 <CardDescription>{description}</CardDescription>
             </CardHeader>
             <CardContent>

@@ -29,7 +29,7 @@ export function TransactionAmountBarChart() {
             color: "#f6339a",
         },
     } satisfies ChartConfig;
-    const description = `${format(subDays(new Date(), 7), "dd MMM yyyy")} - ${format(new Date(), "dd MMM yyyy")}`;
+    const description = `${format(subDays(new Date(), 6), "dd MMM yyyy")} - ${format(new Date(), "dd MMM yyyy")}`;
     const transactionAmountData = stats?.transactionsPerDay.map(upd => ({
         key: upd.date,
         amount: upd.totalAmount
