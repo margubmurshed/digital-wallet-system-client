@@ -63,7 +63,7 @@ const AgentDashboard = () => {
             <div className="container mx-auto space-y-10 px-5 lg:p-0 mb-5">
                 {/* stats */}
                 <div className="mt-40">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
                         {
                             walletLoading ? (
                                 <>

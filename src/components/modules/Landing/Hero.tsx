@@ -44,12 +44,8 @@ const Hero = () => {
                                 <Logo />
                             </div>
                             <div className="lg:text-left">
-                                {/* <h1 className="mb-6 text-2xl font-bold tracking-tight text-pretty lg:text-5xl">
-                                    Your Money. Anytime, {" "}
-                                    <span className="text-primary">Anywhere.</span>
-                                </h1> */}
                                 <div>
-                                    <BlurInText text="Your Money. Anytime, Anywhere."/>
+                                    <BlurInText text="Your Money. Anytime, Anywhere." className="justify-center lg:justify-start"/>
                                 </div>
                                 <p className="mx-auto max-w-3xl text-muted-foreground lg:text-lg">
                                     Experience a modern way to manage your finances. Whether you’re paying bills, sending money to family, or managing business transactions — we’ve got you covered.

@@ -2,6 +2,7 @@ import featuresImage from "@/assets/images/undraw_features-overview_uone.svg"
 import BlurInText from "@/components/BlurInText";
 import { motion } from "framer-motion";
 import { Wallet, Repeat, Smartphone, AlertCircle, DollarSign, FileText, Activity, Settings, Users, BarChart2, User, CheckCircle, UserCheck, Crown } from "lucide-react";
+import { Moon, Bell, Compass } from "lucide-react";
 const Features = () => {
 
 
@@ -63,6 +64,31 @@ const Features = () => {
             description: "Adjust fees, limits, and operational rules.",
         },
     ];
+
+
+    const generalFeatures = [
+        {
+            icon: <Moon className="h-5 w-5" />,
+            title: "Dark/Light Mode",
+            description: "Switch seamlessly between light and dark themes.",
+        },
+        {
+            icon: <Bell className="h-5 w-5" />,
+            title: "Toast Alerts",
+            description: "Stay updated with real-time alerts and reminders.",
+        },
+        {
+            icon: <Compass className="h-5 w-5" />,
+            title: "Guided User Tour",
+            description: "Step-by-step onboarding to explore key features.",
+        },
+        {
+            icon: <BarChart2 className="h-5 w-5" />,
+            title: "Visual Analytics",
+            description: "Interactive charts and insights at your fingertips.",
+        },
+    ];
+
 
 
     return (
@@ -174,7 +200,7 @@ const Features = () => {
                             </div>
                             <h3 className="text-2xl font-semibold">General Features</h3>
                             <ul className="flex flex-col items-start text-left w-full space-y-3">
-                                {adminFeatures.map((item, i) => (
+                                {generalFeatures.map((item, i) => (
                                     <li className="text-left w-full flex items-center gap-3 space-y-3" key={i}>
                                         <span className="m-0"><CheckCircle /></span>
                                         <span>{item.title}</span>

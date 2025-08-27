@@ -1,6 +1,5 @@
 import FullPageLoader from "@/components/FullPageLoader";
 import { useUserQuery } from "@/redux/features/auth/auth.api";
-import bg from "@/assets/images/user-dashboard-background-image.jpg"
 import { Badge } from "@/components/ui/badge";
 import { BadgeCheckIcon, MinusCircle, PlusCircle, Send } from "lucide-react";
 import { formatAmount } from "@/utils/formatAmount";
@@ -37,9 +36,14 @@ const UserDashboard = () => {
     return (
         <div>
             <Navbar />
-            <div className="border max-h-60 relative">
-                <img src={bg} alt="user-dashboard-bg-image" className="absolute w-full h-full bg-center" />
-                <div className="container mx-auto text-center gap-3 flex flex-col items-center mt-40 z-10 relative">
+            <div className="max-h-60 relative">
+                <div
+                    className="absolute inset-0 z-0"
+                    style={{
+                        backgroundImage: `radial-gradient(circle 600px at 50% 50%, rgba(59,130,246,0.3), transparent)`,
+                    }}
+                />
+                <div className="container mx-auto text-center gap-3 flex flex-col items-center pt-40 z-10 relative">
                     <div className="w-32 h-32 rounded-full border-8 border-primary bg-background">
                         <img
                             src={"https://github.com/shadcn.png"}
@@ -60,7 +64,7 @@ const UserDashboard = () => {
             <div className="container mx-auto space-y-10 px-5 lg:p-0 mb-5">
                 {/* stats */}
                 <div className="mt-40">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
                         {
                             walletLoading ? (
                                 <>
@@ -137,7 +141,7 @@ const UserDashboard = () => {
                     </Tabs>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     );
 };
