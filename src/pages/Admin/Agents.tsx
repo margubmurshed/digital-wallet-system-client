@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectValue } from "@/components/ui/
 import { SelectIcon, SelectTrigger } from "@radix-ui/react-select";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useGetAgentsQuery } from "@/redux/features/user/user.api";
-import { ChevronDown, EllipsisVertical } from "lucide-react";
+import { Check, ChevronDown, EllipsisVertical } from "lucide-react";
 import { useUpdateUserMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
 import { ShowWalletModal } from "@/components/modules/Admin/ShowWalletModal";
@@ -18,8 +18,13 @@ import { createManageAgentsTour } from "@/driverTour";
 const Agents = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [filterType, setFilterType] = useState("-createdAt");
-    const { data: agents, isFetching: agentsLoading } = useGetAgentsQuery({ page: currentPage, fields: "-updatedAt", sortBy: filterType });
+    const [status, setStatus] = useState<string | undefined>(undefined);
+    const [isApproved, setIsApproved] = useState<boolean | undefined>(undefined);
+    const { data: agents, isFetching: agentsLoading } = useGetAgentsQuery({ page: currentPage, fields: "-updatedAt", sortBy: filterType, status, isApproved });
     const [updateUser, { isLoading: updateUserLoading }] = useUpdateUserMutation();
+
+    const statusTypes = ["ACTIVE", "BLOCKED"];
+    const approveType = [true, false];
 
     useEffect(() => {
         const showTour = localStorage.getItem("tour_adminAgents");
@@ -51,8 +56,8 @@ const Agents = () => {
         <div className="w-full p-6 bg-background text-foreground mx-auto">
             <div className="flex flex-col lg:flex-row items-center justify-between mb-4">
                 <h1 className="text-2xl font-bold">My Agents</h1>
-                <div className="space-x-3 mt-5 lg:mt-0" id="filters">
-                    <Select onValueChange={value => setFilterType(value)} value={filterType || ""} disabled={agentsLoading}>
+                <div className="space-x-3 space-y-3 mt-5 lg:mt-0" id="filters">
+                    <Select onValueChange={value => setFilterType(value)} value={filterType || ""} disabled={agentsLoading || updateUserLoading}>
                         <SelectTrigger className={`cursor-pointer ${buttonVariants({ variant: "outline", size: "default" })}`}>
                             <SelectValue placeholder="Select a filter" />
                             <SelectIcon>
@@ -68,6 +73,48 @@ const Agents = () => {
                             </SelectItem>
                         </SelectContent>
                     </Select>
+                    <Select onValueChange={value => {
+                        if (value === "all") setStatus(undefined)
+                        else setStatus(value)
+                    }} value={status || "all"} disabled={agentsLoading || updateUserLoading}>
+                        <SelectTrigger className={`cursor-pointer capitalize ${buttonVariants({ variant: "default", size: "default" })}`}>
+                            <SelectValue placeholder="Select a status type" />
+                            <SelectIcon>
+                                <ChevronDown />
+                            </SelectIcon>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">
+                                All Status
+                            </SelectItem>
+                            {statusTypes.map(statusType => (
+                                <SelectItem value={statusType} className="capitalize" key={statusType}>
+                                    {statusType.split("_").join(" ").toLowerCase()}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <Select onValueChange={value => {
+                        if (value === "all") setIsApproved(undefined)
+                        else setIsApproved(value === "1" ? true : false)
+                    }} value={typeof isApproved === "boolean" ? (isApproved ? "1" : "0") : "all"} disabled={agentsLoading || updateUserLoading}>
+                        <SelectTrigger className={`cursor-pointer capitalize ${buttonVariants({ variant: "default", size: "default" })}`}>
+                            <SelectValue placeholder="Select approve status type" />
+                            <SelectIcon>
+                                <ChevronDown />
+                            </SelectIcon>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">
+                                All Approve Type
+                            </SelectItem>
+                            {approveType.map(approveType => (
+                                <SelectItem value={approveType ? "1" : "0"} className="capitalize" key={`${approveType}`}>
+                                    {approveType ? "Approved" : "Not Approved"}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
             </div>
             {(agents?.data.length || agentsLoading) ? <div>
@@ -81,6 +128,7 @@ const Agents = () => {
                             <TableHead>Phone</TableHead>
                             <TableHead>Commission Rate</TableHead>
                             <TableHead>Status</TableHead>
+                            <TableHead>Approve</TableHead>
                             <TableHead>Created At</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -112,10 +160,10 @@ const Agents = () => {
                                         <TableCell className="w-1/2">{agent.phone}</TableCell>
                                         <TableCell className="w-1/2">{agent.commissionRate}</TableCell>
                                         <TableCell className="w-1/2" id="update-status">
-                                            <Select onValueChange={value => handleStatusUpdate(agent._id, value)} value={agent.isApproved ? "1" : "0"} disabled={updateUserLoading}>
+                                            <Select onValueChange={value => handleStatusUpdate(agent._id, value)} value={agent.status === "ACTIVE" ? "1" : "0"} disabled={updateUserLoading}>
                                                 <SelectTrigger className={cn(`cursor-pointer ${buttonVariants({ variant: "outline", size: "sm" })}`, {
-                                                    "bg-green-600 text-white": agent.isApproved,
-                                                    "bg-red-600 text-white": !agent.isApproved,
+                                                    "bg-green-600 text-white": agent.status === "ACTIVE",
+                                                    "bg-red-600 text-white": agent.status === "BLOCKED",
                                                 })}>
                                                     <SelectValue placeholder="Select a status" />
                                                     <SelectIcon>
@@ -124,13 +172,19 @@ const Agents = () => {
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectItem value="1">
-                                                        Approved
+                                                        Active
                                                     </SelectItem>
                                                     <SelectItem value="0">
-                                                        Not Approved
+                                                        Blocked
                                                     </SelectItem>
                                                 </SelectContent>
                                             </Select>
+                                        </TableCell>
+                                        <TableCell className="w-1/2" id="update-approve">
+                                            <Badge className={cn("cursor-pointer", {
+                                                "bg-green-600 text-white": agent.isApproved,
+                                                "bg-red-600 text-white": !agent.isApproved,
+                                            })}>{agent.isApproved ? <><Check /> Approved</> : "Not Approved"}</Badge>
                                         </TableCell>
                                         <TableCell className="w-1/2">
                                             {format(new Date(agent.createdAt), "hh:mm a, dd MMM yyyy")}

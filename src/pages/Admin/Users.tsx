@@ -24,7 +24,7 @@ const Users = () => {
     const { data: users, isFetching: usersLoading } = useGetUsersQuery({ page: currentPage, fields: "-updatedAt", sortBy: filterType, status, isApproved });
     const [updateUser, { isLoading: updateUserLoading }] = useUpdateUserMutation();
 
-    const statusTypes = ["ACTIVE", "FAILED"];
+    const statusTypes = ["ACTIVE", "BLOCKED"];
     const approveType = [true, false];
 
     useEffect(() => {
