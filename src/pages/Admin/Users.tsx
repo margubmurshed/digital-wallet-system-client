@@ -2,7 +2,7 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { format } from "date-fns"
 import { Select, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { SelectIcon, SelectTrigger } from "@radix-ui/react-select";
@@ -12,12 +12,22 @@ import { ChevronDown, EllipsisVertical } from "lucide-react";
 import { useUpdateUserMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
 import { ShowWalletModal } from "@/components/modules/Admin/ShowWalletModal";
+import { createManageUsersTour } from "@/driverTour";
 
 const Users = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [filterType, setFilterType] = useState("-createdAt");
     const { data: users, isFetching: usersLoading } = useGetUsersQuery({ page: currentPage, fields: "-updatedAt", sortBy: filterType });
     const [updateUser, { isLoading: updateUserLoading }] = useUpdateUserMutation();
+
+    useEffect(() => {
+        const showTour = localStorage.getItem("tour_adminUsers");
+        if (users?.data && !usersLoading && !showTour) {
+            const tour = createManageUsersTour();
+            tour.drive();
+            localStorage.setItem("tour_adminUsers", "false")
+        }
+    }, [users?.data, usersLoading])
 
     const handleStatusUpdate = async (_id: string, value: string) => {
         const updateUserData = {
@@ -40,7 +50,7 @@ const Users = () => {
         <div className="w-full p-6 bg-background text-foreground mx-auto">
             <div className="flex flex-col lg:flex-row items-center justify-between mb-4">
                 <h1 className="text-2xl font-bold">My Users</h1>
-                <div className="space-x-3 mt-5 lg:mt-0">
+                <div className="space-x-3 mt-5 lg:mt-0" id="filters">
                     <Select onValueChange={value => setFilterType(value)} value={filterType || ""} disabled={usersLoading}>
                         <SelectTrigger className={`cursor-pointer ${buttonVariants({ variant: "outline", size: "default" })}`}>
                             <SelectValue placeholder="Select a filter" />
@@ -60,7 +70,7 @@ const Users = () => {
                 </div>
             </div>
             {(users?.data.length || usersLoading) ? <div>
-                <Table>
+                <Table id="table">
                     <TableHeader>
                         <TableRow>
                             <TableHead>ID</TableHead>
@@ -90,7 +100,7 @@ const Users = () => {
                                         <TableCell className="w-1/2 capitalize">{user.role.split("_").join(" ").toLowerCase()}</TableCell>
                                         <TableCell className="w-1/2">{user.email}</TableCell>
                                         <TableCell className="w-1/2">{user.phone}</TableCell>
-                                        <TableCell className="w-1/2">
+                                        <TableCell className="w-1/2" id="update-status">
                                             <Select onValueChange={value => handleStatusUpdate(user._id, value)} value={user.isApproved ? "1" : "0"} disabled={updateUserLoading}>
                                                 <SelectTrigger className={cn(`cursor-pointer ${buttonVariants({ variant: "outline", size: "sm" })}`, {
                                                     "bg-green-600 text-white": user.isApproved,
@@ -130,7 +140,7 @@ const Users = () => {
                             <Pagination>
                                 <PaginationContent>
                                     <PaginationItem>
-                                        <PaginationPrevious className={cn("select-none", {
+                                        <PaginationPrevious size="sm" className={cn("select-none", {
                                             "pointer-events-none opacity-50": currentPage === 1,
                                             "cursor-pointer": currentPage > 1,
                                         })} onClick={() => setCurrentPage(prev => {
@@ -141,6 +151,7 @@ const Users = () => {
                                     {Array.from({ length: users?.meta.totalPages || 1 }, (_, i) => i + 1).map((page) => (
                                         <PaginationItem key={page} className="cursor-pointer">
                                             <PaginationLink
+                                                size="sm"
                                                 isActive={currentPage === page}
                                                 onClick={() => setCurrentPage(page)}
                                             >
@@ -149,7 +160,7 @@ const Users = () => {
                                         </PaginationItem>
                                     ))}
                                     <PaginationItem>
-                                        <PaginationNext className={cn("select-none cursor-pointer", {
+                                        <PaginationNext size="sm" className={cn("select-none cursor-pointer", {
                                             "pointer-events-none opacity-50": currentPage === users?.meta.totalPages
                                         })} onClick={() => setCurrentPage(prev => {
                                             if (prev === users?.meta.totalPages) return prev;

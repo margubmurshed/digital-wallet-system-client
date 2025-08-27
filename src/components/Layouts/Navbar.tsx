@@ -104,7 +104,7 @@ export default function Navbar() {
 
     return (
         <header className="border-b border-primary/10 px-4 md:px-6">
-            <div className="flex h-16 items-center justify-between gap-4">
+            <div className="flex h-16 items-center justify-between gap-4" id="nav-menu">
                 {/* Left side */}
                 <div className="flex items-center gap-2">
                     {/* Mobile menu trigger */}
@@ -304,7 +304,9 @@ export default function Navbar() {
                 </div>
                 {/* Right side */}
                 <div className="flex items-center gap-2">
-                    <ModeToggler />
+                    <div id="theme-toggler">
+                        <ModeToggler />
+                    </div>
                     {userLoading
                         ? <Button variant="outline" size="sm" className="text-sm" disabled><ButtonLoader /></Button>
                         : (data?.data?.email)

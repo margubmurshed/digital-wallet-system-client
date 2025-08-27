@@ -5,13 +5,24 @@ import { TransactionsBarChart } from "@/components/modules/Admin/TransactionsBar
 import { UserAgentPieChart } from "@/components/modules/Admin/UserAgentPieChart";
 import { UsersBarChart } from "@/components/modules/Admin/UsersBarChart";
 import { Skeleton } from "@/components/ui/skeleton";
+import { createDashboardIndexTour } from "@/driverTour";
 import { useGetStatsQuery } from "@/redux/features/stats/stats.api";
 import { User, UserLock } from "lucide-react";
+import { useEffect } from "react";
 import { FaMoneyCheck, FaSortAmountUp } from "react-icons/fa";
 
 const DashboardIndex = () => {
     const { data, isLoading } = useGetStatsQuery(null);
     const stats = data?.data;
+
+    useEffect(() => {
+        const showTour = localStorage.getItem("tour_adminIndex");
+        if (stats && !isLoading && !showTour) {
+            const tour = createDashboardIndexTour();
+            tour.drive()
+            localStorage.setItem("tour_adminIndex", "false")
+        }
+    }, [stats, isLoading])
     if (isLoading) return (
         <div>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
@@ -30,7 +41,7 @@ const DashboardIndex = () => {
     return (
         <div>
             {/* stats */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3" id="stats-cards">
                 <div className="border rounded-md p-4 gap-2 bg-green-500 text-white shadow-md flex items-center">
                     <span className="text-2xl"><User className="h-10 w-10" /></span>
                     <div className="flex flex-col">
@@ -73,14 +84,16 @@ const DashboardIndex = () => {
                 </div>
             </div>
             {/* charts */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 mt-5">
-                <UsersBarChart />
-                <AgentsBarChart />
-                <TransactionsBarChart />
-                <TransactionAmountBarChart />
-            </div>
-            <div className="mt-5">
-                <UserAgentPieChart />
+            <div id="chart-section">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 mt-5">
+                    <UsersBarChart />
+                    <AgentsBarChart />
+                    <TransactionsBarChart />
+                    <TransactionAmountBarChart />
+                </div>
+                <div className="mt-5">
+                    <UserAgentPieChart />
+                </div>
             </div>
         </div>
     );

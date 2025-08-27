@@ -2,7 +2,7 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { format } from "date-fns"
 import { Select, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { SelectIcon, SelectTrigger } from "@radix-ui/react-select";
@@ -11,6 +11,7 @@ import { ChevronDown, Phone } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useGetAllTransactionsQuery } from "@/redux/features/transaction/transaction.api";
 import { Input } from "@/components/ui/input";
+import { createManageTransactionTour } from "@/driverTour";
 
 const Transactions = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,9 +20,16 @@ const Transactions = () => {
     const [status, setStatus] = useState<string | undefined>(undefined);
     const [minAmount, setMinAmount] = useState<number | undefined>(undefined);
     const [maxAmount, setMaxAmount] = useState<number | undefined>(undefined);
-
-    console.log(minAmount, maxAmount)
     const { data: transactions, isFetching: transactionsLoading } = useGetAllTransactionsQuery({ page: currentPage, fields: "-updatedAt", sortBy: filterType, type: trxType, status, minAmount, maxAmount });
+
+    useEffect(() => {
+        const showTour = localStorage.getItem("tour_adminTrx");
+        if (transactions?.data && !transactionsLoading && !showTour) {
+            const tour = createManageTransactionTour();
+            tour.drive()
+            localStorage.setItem("tour_adminTrx", "false")
+        }
+    }, [transactions?.data, transactionsLoading])
 
     const trxTypes = ["CASH_IN", "CASH_OUT", "SEND_MONEY", "ADD_MONEY", "WITHDRAW"];
     const statusTypes = ["COMPLETED", "FAILED"]
@@ -30,7 +38,7 @@ const Transactions = () => {
         <div className="w-full p-6 bg-background text-foreground mx-auto">
             <div className="flex flex-col lg:flex-row items-center justify-between mb-4">
                 <h1 className="text-2xl font-bold">Transactions</h1>
-                <div className="space-x-3 space-y-3 mt-5 lg:mt-0">
+                <div className="space-x-3 space-y-3 mt-5 lg:mt-0" id="filters">
                     <Select onValueChange={value => setFilterType(value)} value={filterType || ""} disabled={transactionsLoading}>
                         <SelectTrigger className={`cursor-pointer ${buttonVariants({ variant: "outline", size: "default" })}`}>
                             <SelectValue placeholder="Select a division" />
@@ -89,13 +97,13 @@ const Transactions = () => {
                             ))}
                         </SelectContent>
                     </Select>
-                    <div className="border p-1 rounded-md flex gap-3">
-                        <Input type="number" placeholder="Minimum Amount" onChange={(e) => setMinAmount(e.target.value? Number(e.target.value) : undefined)} />
-                        <Input type="number" placeholder="Maximum Amount" onChange={(e) => setMaxAmount(e.target.value? Number(e.target.value) : undefined)} />
+                    <div className="border p-1 rounded-md flex gap-3" id="filter-by-amount">
+                        <Input type="number" placeholder="Minimum Amount" onChange={(e) => setMinAmount(e.target.value ? Number(e.target.value) : undefined)} />
+                        <Input type="number" placeholder="Maximum Amount" onChange={(e) => setMaxAmount(e.target.value ? Number(e.target.value) : undefined)} />
                     </div>
                 </div>
             </div>
-            {(transactions?.data.length || transactionsLoading) ? <div>
+            {(transactions?.data.length || transactionsLoading) ? <div id="table">
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -185,7 +193,7 @@ const Transactions = () => {
                             <Pagination>
                                 <PaginationContent>
                                     <PaginationItem>
-                                        <PaginationPrevious className={cn("select-none", {
+                                        <PaginationPrevious size="sm" className={cn("select-none", {
                                             "pointer-events-none opacity-50": currentPage === 1,
                                             "cursor-pointer": currentPage > 1,
                                         })} onClick={() => setCurrentPage(prev => {
@@ -195,7 +203,7 @@ const Transactions = () => {
                                     </PaginationItem>
                                     {Array.from({ length: transactions?.meta.totalPages || 1 }, (_, i) => i + 1).map((page) => (
                                         <PaginationItem key={page} className="cursor-pointer">
-                                            <PaginationLink
+                                            <PaginationLink size="sm"
                                                 isActive={currentPage === page}
                                                 onClick={() => setCurrentPage(page)}
                                             >
@@ -204,7 +212,7 @@ const Transactions = () => {
                                         </PaginationItem>
                                     ))}
                                     <PaginationItem>
-                                        <PaginationNext className={cn("select-none cursor-pointer", {
+                                        <PaginationNext size="sm" className={cn("select-none cursor-pointer", {
                                             "pointer-events-none opacity-50": currentPage === transactions?.meta.totalPages
                                         })} onClick={() => setCurrentPage(prev => {
                                             if (prev === transactions?.meta.totalPages) return prev;
