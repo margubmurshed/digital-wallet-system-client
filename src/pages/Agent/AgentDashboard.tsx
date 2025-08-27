@@ -33,7 +33,7 @@ const AgentDashboard = () => {
     return (
         <div>
             <Navbar />
-            <div className="border max-h-60 relative">
+            <div className="border max-h-60 relative pt-10">
                 <img src={bg} alt="user-dashboard-bg-image" className="absolute w-full h-full bg-center" />
                 <div className="container mx-auto text-center gap-3 flex flex-col items-center mt-40 z-10 relative">
                     <div className="w-32 h-32 rounded-full border-8 border-primary bg-background">

@@ -8,7 +8,7 @@ const PrimaryLayout = () => {
         <div className="min-h-screen flex flex-col">
             <ScrollToTop />
             <Navbar />
-            <div className="grow">
+            <div className="grow pt-10">
                 <Outlet />
             </div>
             <Footer />

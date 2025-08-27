@@ -114,51 +114,52 @@ export default function Navbar() {
     }
 
     return (
-        <header className="border-b border-primary/10 px-4 md:px-6">
-            <div className="flex h-16 items-center justify-between gap-4" id="nav-menu">
-                {/* Left side */}
-                <div className="flex items-center gap-2">
-                    {/* Mobile menu trigger */}
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <Button
-                                className="group size-8 md:hidden"
-                                variant="ghost"
-                                size="icon"
-                            >
-                                <svg
-                                    className="pointer-events-none"
-                                    width={16}
-                                    height={16}
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    xmlns="http://www.w3.org/2000/svg"
+        <header className="p-2 fixed w-full top-0 z-50">
+            <div className="border border-white/20 dark:border-white/10 px-4 md:px-6 shadow-md bg-white/30 dark:bg-black/30 backdrop-blur-lg rounded-full">
+                <div className="flex h-16 items-center justify-between gap-4" id="nav-menu">
+                    {/* Left side */}
+                    <div className="flex items-center gap-2">
+                        {/* Mobile menu trigger */}
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    className="group size-8 md:hidden"
+                                    variant="ghost"
+                                    size="icon"
                                 >
-                                    <path
-                                        d="M4 12L20 12"
-                                        className="origin-center -translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[315deg]"
-                                    />
-                                    <path
-                                        d="M4 12H20"
-                                        className="origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] group-aria-expanded:rotate-45"
-                                    />
-                                    <path
-                                        d="M4 12H20"
-                                        className="origin-center translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]"
-                                    />
-                                </svg>
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent align="start" className="w-64 p-1 md:hidden">
-                            <NavigationMenu className="max-w-none *:w-full">
-                                <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
-                                    {navigationLinks.map((link, index) => (
-                                        <NavigationMenuItem key={index} className="w-full">
-                                            {/* {link.submenu ? (
+                                    <svg
+                                        className="pointer-events-none"
+                                        width={16}
+                                        height={16}
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M4 12L20 12"
+                                            className="origin-center -translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[315deg]"
+                                        />
+                                        <path
+                                            d="M4 12H20"
+                                            className="origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] group-aria-expanded:rotate-45"
+                                        />
+                                        <path
+                                            d="M4 12H20"
+                                            className="origin-center translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]"
+                                        />
+                                    </svg>
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent align="start" className="w-64 p-1 md:hidden">
+                                <NavigationMenu className="max-w-none *:w-full">
+                                    <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
+                                        {navigationLinks.map((link, index) => (
+                                            <NavigationMenuItem key={index} className="w-full">
+                                                {/* {link.submenu ? (
                                                 <>
                                                     <div className="text-muted-foreground px-2 py-1.5 text-xs font-medium">
                                                         {link.label}
@@ -178,10 +179,10 @@ export default function Navbar() {
                                                 </>
                                             ) : (
                                             )} */}
-                                            <NavigationMenuLink href={link.href} className="py-1.5">
-                                                {link.label}
-                                            </NavigationMenuLink>
-                                            {/* Add separator between different types of items
+                                                <NavigationMenuLink href={link.href} className="py-1.5">
+                                                    {link.label}
+                                                </NavigationMenuLink>
+                                                {/* Add separator between different types of items
                                             {index < navigationLinks.length - 1 &&
                                                 // Show separator if:
                                                 // 1. One is submenu and one is simple link OR
@@ -199,23 +200,23 @@ export default function Navbar() {
                                                         className="bg-border -mx-1 my-1 h-px w-full"
                                                     />
                                                 )} */}
-                                        </NavigationMenuItem>
-                                    ))}
-                                </NavigationMenuList>
-                            </NavigationMenu>
-                        </PopoverContent>
-                    </Popover>
-                    {/* Main nav */}
-                    <div className="flex items-center gap-6">
-                        <a href="#" className="text-primary hover:text-primary/90">
-                            <Logo />
-                        </a>
-                        {/* Navigation menu */}
-                        <NavigationMenu viewport={false} className="max-md:hidden">
-                            <NavigationMenuList className="gap-2">
-                                {navigationLinks.map((link, index) => (
-                                    <NavigationMenuItem key={index}>
-                                        {/* {link.submenu ? (
+                                            </NavigationMenuItem>
+                                        ))}
+                                    </NavigationMenuList>
+                                </NavigationMenu>
+                            </PopoverContent>
+                        </Popover>
+                        {/* Main nav */}
+                        <div className="flex items-center gap-6">
+                            <a href="#" className="text-primary hover:text-primary/90">
+                                <Logo />
+                            </a>
+                            {/* Navigation menu */}
+                            <NavigationMenu viewport={false} className="max-md:hidden">
+                                <NavigationMenuList className="gap-2">
+                                    {navigationLinks.map((link, index) => (
+                                        <NavigationMenuItem key={index}>
+                                            {/* {link.submenu ? (
                                             <>
                                                 <NavigationMenuTrigger className="text-muted-foreground hover:text-primary bg-transparent px-2 py-1.5 font-medium *:[svg]:-me-0.5 *:[svg]:size-3.5">
                                                     {link.label}
@@ -289,51 +290,52 @@ export default function Navbar() {
                                             </>
                                         ) : (
                                         )} */}
-                                        <NavigationMenuLink
-                                            href={link.href}
-                                            className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                                        >
-                                            {link.label}
-                                        </NavigationMenuLink>
-                                    </NavigationMenuItem>
-                                ))}
-                            </NavigationMenuList>
-                        </NavigationMenu>
-                        {userLoading && (
-                            <div className="flex items-center gap-4">
-                                {Array.from({ length: 2 }).map((_, i) => (
-                                    <div key={i} className="flex items-center gap-2">
-                                        {/* icon placeholder */}
-                                        <Skeleton className="h-4 w-4 rounded" />
-                                        {/* text placeholder */}
-                                        <Skeleton className="h-4 w-16 rounded" />
-                                    </div>
-                                ))}
-                            </div>
-                        )}
+                                            <NavigationMenuLink
+                                                href={link.href}
+                                                className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                                            >
+                                                {link.label}
+                                            </NavigationMenuLink>
+                                        </NavigationMenuItem>
+                                    ))}
+                                </NavigationMenuList>
+                            </NavigationMenu>
+                            {userLoading && (
+                                <div className="flex items-center gap-4">
+                                    {Array.from({ length: 2 }).map((_, i) => (
+                                        <div key={i} className="flex items-center gap-2">
+                                            {/* icon placeholder */}
+                                            <Skeleton className="h-4 w-4 rounded" />
+                                            {/* text placeholder */}
+                                            <Skeleton className="h-4 w-16 rounded" />
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </div>
-                {/* Right side */}
-                <div className="flex items-center gap-2">
-                    <div id="theme-toggler">
-                        <ModeToggler />
-                    </div>
-                    {userLoading
-                        ? <Button variant="outline" size="sm" className="text-sm" disabled><ButtonLoader /></Button>
-                        : (data?.data?.email)
-                            ? (
-                                <>
-                                    <Button onClick={handleLogout} variant="destructive" size="sm" className="text-sm cursor-pointer" disabled={logoutLoading}>
-                                        {logoutLoading ? <ButtonLoader /> : "Logout"}
-                                        <LogOut />
-                                    </Button>
-                                </>
-                            )
-                            : <Button size="sm" className="text-sm" asChild disabled={userLoading}>
-                                <Link to="/login">Login</Link>
-                            </Button>
-                    }
+                    {/* Right side */}
+                    <div className="flex items-center gap-2">
+                        <div id="theme-toggler">
+                            <ModeToggler />
+                        </div>
+                        {userLoading
+                            ? <Button variant="outline" size="sm" className="text-sm" disabled><ButtonLoader /></Button>
+                            : (data?.data?.email)
+                                ? (
+                                    <>
+                                        <Button onClick={handleLogout} variant="destructive" size="sm" className="text-sm cursor-pointer" disabled={logoutLoading}>
+                                            {logoutLoading ? <ButtonLoader /> : "Logout"}
+                                            <LogOut />
+                                        </Button>
+                                    </>
+                                )
+                                : <Button size="sm" className="text-sm" asChild disabled={userLoading}>
+                                    <Link to="/login">Login</Link>
+                                </Button>
+                        }
 
+                    </div>
                 </div>
             </div>
         </header>
