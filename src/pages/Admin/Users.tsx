@@ -8,17 +8,24 @@ import { Select, SelectContent, SelectItem, SelectValue } from "@/components/ui/
 import { SelectIcon, SelectTrigger } from "@radix-ui/react-select";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useGetUsersQuery } from "@/redux/features/user/user.api";
-import { ChevronDown, EllipsisVertical } from "lucide-react";
+import { Check, ChevronDown, EllipsisVertical } from "lucide-react";
 import { useUpdateUserMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
 import { ShowWalletModal } from "@/components/modules/Admin/ShowWalletModal";
 import { createManageUsersTour } from "@/driverTour";
+import type { IUpdateUserInfo } from "@/types/auth.types";
+import { Badge } from "@/components/ui/badge";
 
 const Users = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [filterType, setFilterType] = useState("-createdAt");
-    const { data: users, isFetching: usersLoading } = useGetUsersQuery({ page: currentPage, fields: "-updatedAt", sortBy: filterType });
+    const [status, setStatus] = useState<string | undefined>(undefined);
+    const [isApproved, setIsApproved] = useState<boolean | undefined>(undefined);
+    const { data: users, isFetching: usersLoading } = useGetUsersQuery({ page: currentPage, fields: "-updatedAt", sortBy: filterType, status, isApproved });
     const [updateUser, { isLoading: updateUserLoading }] = useUpdateUserMutation();
+
+    const statusTypes = ["ACTIVE", "FAILED"];
+    const approveType = [true, false];
 
     useEffect(() => {
         const showTour = localStorage.getItem("tour_adminUsers");
@@ -30,9 +37,9 @@ const Users = () => {
     }, [users?.data, usersLoading])
 
     const handleStatusUpdate = async (_id: string, value: string) => {
-        const updateUserData = {
+        const updateUserData: IUpdateUserInfo = {
             _id,
-            isApproved: value === "1" ? true : false
+            status: value === "1" ? "ACTIVE" : "BLOCKED"
         }
         try {
             const response = await updateUser(updateUserData).unwrap();
@@ -67,6 +74,48 @@ const Users = () => {
                             </SelectItem>
                         </SelectContent>
                     </Select>
+                    <Select onValueChange={value => {
+                        if (value === "all") setStatus(undefined)
+                        else setStatus(value)
+                    }} value={status || "all"} disabled={usersLoading || updateUserLoading}>
+                        <SelectTrigger className={`cursor-pointer capitalize ${buttonVariants({ variant: "default", size: "default" })}`}>
+                            <SelectValue placeholder="Select a status type" />
+                            <SelectIcon>
+                                <ChevronDown />
+                            </SelectIcon>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">
+                                All Status
+                            </SelectItem>
+                            {statusTypes.map(statusType => (
+                                <SelectItem value={statusType} className="capitalize">
+                                    {statusType.split("_").join(" ").toLowerCase()}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <Select onValueChange={value => {
+                        if (value === "all") setIsApproved(undefined)
+                        else setIsApproved(value === "1" ? true : false)
+                    }} value={status || "all"} disabled={usersLoading || updateUserLoading}>
+                        <SelectTrigger className={`cursor-pointer capitalize ${buttonVariants({ variant: "default", size: "default" })}`}>
+                            <SelectValue placeholder="Select approve status type" />
+                            <SelectIcon>
+                                <ChevronDown />
+                            </SelectIcon>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">
+                                All Approve Type
+                            </SelectItem>
+                            {approveType.map(approveType => (
+                                <SelectItem value={approveType ? "1" : "0"} className="capitalize">
+                                    {approveType ? "Approved" : "Not Approved"}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
             </div>
             {(users?.data.length || usersLoading) ? <div>
@@ -79,6 +128,7 @@ const Users = () => {
                             <TableHead>Email</TableHead>
                             <TableHead>Phone</TableHead>
                             <TableHead>Status</TableHead>
+                            <TableHead>Approve</TableHead>
                             <TableHead>Created At</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -101,10 +151,10 @@ const Users = () => {
                                         <TableCell className="w-1/2">{user.email}</TableCell>
                                         <TableCell className="w-1/2">{user.phone}</TableCell>
                                         <TableCell className="w-1/2" id="update-status">
-                                            <Select onValueChange={value => handleStatusUpdate(user._id, value)} value={user.isApproved ? "1" : "0"} disabled={updateUserLoading}>
+                                            <Select onValueChange={value => handleStatusUpdate(user._id, value)} value={user.status === "ACTIVE" ? "1" : "0"} disabled={updateUserLoading}>
                                                 <SelectTrigger className={cn(`cursor-pointer ${buttonVariants({ variant: "outline", size: "sm" })}`, {
-                                                    "bg-green-600 text-white": user.isApproved,
-                                                    "bg-red-600 text-white": !user.isApproved,
+                                                    "bg-green-600 text-white": user.status === "ACTIVE",
+                                                    "bg-red-600 text-white": user.status === "BLOCKED",
                                                 })}>
                                                     <SelectValue placeholder="Select a status" />
                                                     <SelectIcon>
@@ -113,18 +163,24 @@ const Users = () => {
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectItem value="1">
-                                                        Approved
+                                                        Active
                                                     </SelectItem>
                                                     <SelectItem value="0">
-                                                        Not Approved
+                                                        Blocked
                                                     </SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </TableCell>
+                                        <TableCell className="w-1/2" id="update-approve">
+                                            <Badge className={cn("cursor-pointer", {
+                                                "bg-green-600 text-white": user.isApproved,
+                                                "bg-red-600 text-white": !user.isApproved,
+                                            })}>{user.isApproved ? <><Check /> Approved</> : "Not Approved"}</Badge>
+                                        </TableCell>
                                         <TableCell className="w-1/2">
                                             {format(new Date(user.createdAt), "hh:mm a, dd MMM yyyy")}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell id="wallet-details-button">
                                             <ShowWalletModal userID={user._id}>
                                                 <Button size="icon" variant="ghost"><EllipsisVertical /></Button>
                                             </ShowWalletModal>

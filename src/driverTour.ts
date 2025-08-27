@@ -88,6 +88,14 @@ export function createManageUsersTour() {
                     side: "left",
                 }
             },
+            {
+                element: "#wallet-details-button",
+                popover: {
+                    title: "User Wallet Details",
+                    description: "Click this icon to manage particular user wallet.",
+                    side: "left",
+                }
+            },
         ]
     })
 }
