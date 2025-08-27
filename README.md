@@ -93,6 +93,12 @@ http://localhost:5173
 - -- utils/
 - -- main.tsx
 ```
+---
+
+**Live URL:** [https://margub-digital-wallet.vercel.app/](https://margub-digital-wallet.vercel.app/)
+**Backend Github:** [https://github.com/margubmurshed/digital-wallet-system/](https://github.com/margubmurshed/digital-wallet-system/)
+
+---
 
 ## Developer
 **Name:** Margub Murshed
