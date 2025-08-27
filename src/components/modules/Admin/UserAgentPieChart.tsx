@@ -37,8 +37,6 @@ export function UserAgentPieChart() {
         { name: "users", count: stats?.thisWeekCount.users.count, fill: "var(--color-users)" },
         { name: "agents", count: stats?.thisWeekCount.agents.count, fill: "var(--color-agents)" },
     ]
-
-    console.log(chartData);
     return (
         <Card className="flex flex-col">
             <CardHeader className="items-center pb-0">

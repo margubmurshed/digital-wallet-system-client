@@ -1,6 +1,5 @@
 import { userRoles } from "@/constants/role";
 import type { ISidebarItem, TRole } from "@/types";
-import { generateRoutes } from "@/utils/generateRoutes";
 import { withAuth } from "@/utils/useAuth";
 import { lazy } from "react";
 
@@ -49,6 +48,3 @@ export const adminSidebarItems: ISidebarItem[] = [
         ],
     }
 ]
-
-
-console.log(generateRoutes(adminSidebarItems))
