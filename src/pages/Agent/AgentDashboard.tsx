@@ -18,6 +18,7 @@ import Transactions from "@/components/modules/User/Transactions";
 import Navbar from "@/components/Layouts/Navbar";
 import { CashInModal } from "@/components/modules/Agent/CashInModal";
 import Footer from "@/components/Layouts/Footer";
+import Settings from "@/components/modules/Common/Settings";
 
 const AgentDashboard = () => {
     const { data: userData, isLoading: userLoading } = useUserQuery();
@@ -97,12 +98,16 @@ const AgentDashboard = () => {
                         <TabsList className="self-center">
                             <TabsTrigger value="profile">Profile</TabsTrigger>
                             <TabsTrigger value="transactions">Transaction History</TabsTrigger>
+                            <TabsTrigger value="transactions">Settings</TabsTrigger>
                         </TabsList>
                         <TabsContent value="profile">
                             <Profile />
                         </TabsContent>
                         <TabsContent value="transactions">
                             <Transactions />
+                        </TabsContent>
+                        <TabsContent value="settings">
+                            <Settings />
                         </TabsContent>
                     </Tabs>
                 </div>

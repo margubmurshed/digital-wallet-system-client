@@ -8,6 +8,7 @@ const Users = lazy(() => import("@/pages/Admin/Users"));
 const Agents = lazy(() => import("@/pages/Admin/Agents"));
 const Transactions = lazy(() => import("@/pages/Admin/Transactions"));
 const Profile = lazy(() => import("@/components/modules/User/Profile"));
+const Settings = lazy(() => import("@/components/modules/Common/Settings"));
 
 
 export const adminSidebarItems: ISidebarItem[] = [
@@ -34,6 +35,11 @@ export const adminSidebarItems: ISidebarItem[] = [
                 title: "Profile",
                 url: "/dashboard/profile",
                 component: withAuth(Profile, [userRoles.ADMIN, userRoles.SUPER_ADMIN] as TRole[])
+            },
+            {
+                title: "Settings",
+                url: "/dashboard/settings",
+                component: withAuth(Settings, [userRoles.ADMIN, userRoles.SUPER_ADMIN] as TRole[])
             },
         ],
     }

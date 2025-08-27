@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sidebar"
 import Logo from "@/assets/icons/Logo"
 import { Link, useLocation } from "react-router"
+import { adminSidebarItems } from "@/routes/adminSidebarItems";
 
 // This is sample data.
 
@@ -20,39 +21,13 @@ import { Link, useLocation } from "react-router"
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const location = useLocation();
     const data = {
-        navMain: [
-            {
-                title: "Dashboard",
-                url: "#",
-                items: [
-                    {
-                        title: "Stats",
-                        url: "/dashboard",
-                        isActive: location.pathname === "/dashboard"
-                    },
-                    {
-                        title: "Manage Users",
-                        url: "/dashboard/users",
-                        isActive: location.pathname === "/dashboard/users"
-                    },
-                    {
-                        title: "Manage Agents",
-                        url: "/dashboard/agents",
-                        isActive: location.pathname === "/dashboard/agents"
-                    },
-                    {
-                        title: "View Transactions",
-                        url: "/dashboard/transactions",
-                        isActive: location.pathname === "/dashboard/transactions"
-                    },
-                    {
-                        title: "Profile",
-                        url: "/dashboard/profile",
-                        isActive: location.pathname === "/dashboard/profile"
-                    },
-                ],
-            },
-        ],
+        navMain: adminSidebarItems.map(item => ({
+            ...item,
+            items: item.items.map(subItem => ({
+                ...subItem,
+                isActive: location.pathname === subItem.url
+            }))
+        })),
     }
     return (
         <Sidebar {...props}>

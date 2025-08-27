@@ -123,7 +123,7 @@ const Transactions = () => {
                             <Pagination>
                                 <PaginationContent>
                                     <PaginationItem>
-                                        <PaginationPrevious className={cn("select-none", {
+                                        <PaginationPrevious size="sm" className={cn("select-none", {
                                             "pointer-events-none opacity-50": currentPage === 1,
                                             "cursor-pointer": currentPage > 1,
                                         })} onClick={() => setCurrentPage(prev => {
@@ -133,7 +133,7 @@ const Transactions = () => {
                                     </PaginationItem>
                                     {Array.from({ length: transactions?.meta.totalPages || 1 }, (_, i) => i + 1).map((page) => (
                                         <PaginationItem key={page} className="cursor-pointer">
-                                            <PaginationLink
+                                            <PaginationLink size="sm"
                                                 isActive={currentPage === page}
                                                 onClick={() => setCurrentPage(page)}
                                             >
@@ -142,7 +142,7 @@ const Transactions = () => {
                                         </PaginationItem>
                                     ))}
                                     <PaginationItem>
-                                        <PaginationNext className={cn("select-none cursor-pointer", {
+                                        <PaginationNext size="sm" className={cn("select-none cursor-pointer", {
                                             "pointer-events-none opacity-50": currentPage === transactions?.meta.totalPages
                                         })} onClick={() => setCurrentPage(prev => {
                                             if (prev === transactions?.meta.totalPages) return prev;

@@ -123,11 +123,15 @@ const UserDashboard = () => {
                         <TabsList className="self-center">
                             <TabsTrigger value="profile">Profile</TabsTrigger>
                             <TabsTrigger value="transactions">Transaction History</TabsTrigger>
+                            <TabsTrigger value="settings">Settings</TabsTrigger>
                         </TabsList>
                         <TabsContent value="profile">
                             <Profile />
                         </TabsContent>
                         <TabsContent value="transactions">
+                            <Transactions />
+                        </TabsContent>
+                        <TabsContent value="settings">
                             <Transactions />
                         </TabsContent>
                     </Tabs>

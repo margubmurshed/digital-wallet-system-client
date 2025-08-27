@@ -22,54 +22,7 @@ import ButtonLoader from "../ButtonLoader"
 import { ModeToggler } from "../ModeToggler"
 import { useEffect } from "react"
 import { createLandingTour } from "@/driverTour"
-
-// Navigation links array to be used in both desktop and mobile menus
-// const navigationLinks = [
-//     { href: "#", label: "Home" },
-//     {
-//         label: "Features",
-//         submenu: true,
-//         type: "description",
-//         items: [
-//             {
-//                 href: "#",
-//                 label: "Components",
-//                 description: "Browse all components in the library.",
-//             },
-//             {
-//                 href: "#",
-//                 label: "Documentation",
-//                 description: "Learn how to use the library.",
-//             },
-//             {
-//                 href: "#",
-//                 label: "Templates",
-//                 description: "Pre-built layouts for common use cases.",
-//             },
-//         ],
-//     },
-//     {
-//         label: "Pricing",
-//         submenu: true,
-//         type: "simple",
-//         items: [
-//             { href: "#", label: "Product A" },
-//             { href: "#", label: "Product B" },
-//             { href: "#", label: "Product C" },
-//             { href: "#", label: "Product D" },
-//         ],
-//     },
-//     {
-//         label: "About",
-//         submenu: true,
-//         type: "icon",
-//         items: [
-//             { href: "#", label: "Getting Started", icon: "BookOpenIcon" },
-//             { href: "#", label: "Tutorials", icon: "LifeBuoyIcon" },
-//             { href: "#", label: "About Us", icon: "InfoIcon" },
-//         ],
-//     },
-// ]
+import { motion } from "framer-motion";
 
 export default function Navbar() {
     const { data, isLoading: userLoading } = useUserQuery(undefined);
@@ -115,7 +68,11 @@ export default function Navbar() {
 
     return (
         <header className="p-2 fixed w-full top-0 z-50">
-            <div className="border px-4 md:px-6 shadow-md bg-white/30 dark:bg-black/30 backdrop-blur-lg rounded-full">
+            <motion.div
+                initial={{ opacity: 0, y: -40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="border px-4 md:px-6 shadow-md bg-white/30 dark:bg-black/30 backdrop-blur-lg rounded-full">
                 <div className="flex h-16 items-center justify-between gap-4" id="nav-menu">
                     {/* Left side */}
                     <div className="flex items-center gap-2">
@@ -337,7 +294,7 @@ export default function Navbar() {
 
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </header>
     )
 }
