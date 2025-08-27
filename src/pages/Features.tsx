@@ -121,14 +121,14 @@ const Features = () => {
                     <motion.h3 className="text-4xl text-center font-semibold">Role Features</motion.h3>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 w-full">
                         <motion.div
-                            className="shadow-md p-5 space-y-3 border border-primary dark:hover:text-black transition rounded-md flex flex-col items-start text-left hover:-translate-y-2 bg-primary text-white dark:text-black w-full"
+                            className="shadow-md p-5 space-y-3 border border-blue-500 transition rounded-md flex flex-col items-start text-left hover:-translate-y-2 bg-blue-500 text-white w-full"
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, amount: 0.3 }}
                             transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
                         >
                             <div className="flex">
-                                <div className="bg-white rounded-full p-5 text-primary">
+                                <div className="bg-white rounded-full p-5 text-blue-500">
                                     <User className="w-10 h-10 m-0" />
                                 </div>
                             </div>
@@ -143,7 +143,7 @@ const Features = () => {
                             </ul>
                         </motion.div>
                         <motion.div
-                            className="shadow-md p-5 space-y-3 border border-purple-500 dark:hover:text-black transition rounded-md flex flex-col items-start text-left hover:-translate-y-2 bg-purple-500 text-white dark:text-black w-full"
+                            className="shadow-md p-5 space-y-3 border border-purple-500 transition rounded-md flex flex-col items-start text-left hover:-translate-y-2 bg-purple-500 text-white w-full"
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, amount: 0.3 }}
@@ -165,7 +165,7 @@ const Features = () => {
                             </ul>
                         </motion.div>
                         <motion.div
-                            className="shadow-md p-5 space-y-3 border border-red-500 dark:hover:text-black transition rounded-md flex flex-col items-start text-left hover:-translate-y-2 bg-red-500 text-white dark:text-black w-full"
+                            className="shadow-md p-5 space-y-3 border border-red-500 transition rounded-md flex flex-col items-start text-left hover:-translate-y-2 bg-red-500 text-white w-full"
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, amount: 0.3 }}
@@ -187,7 +187,7 @@ const Features = () => {
                             </ul>
                         </motion.div>
                         <motion.div
-                            className="shadow-md p-5 space-y-3 border border-orange-500 dark:hover:text-black transition rounded-md flex flex-col items-start text-left hover:-translate-y-2 bg-orange-500 text-white dark:text-black w-full"
+                            className="shadow-md p-5 space-y-3 border border-orange-500 transition rounded-md flex flex-col items-start text-left hover:-translate-y-2 bg-orange-500 text-white w-full"
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, amount: 0.3 }}

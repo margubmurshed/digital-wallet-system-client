@@ -53,7 +53,7 @@ const Contact = () => {
                     />
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 relative w-full">
-                    <div className="bg-primary text-white rounded-xl lg:sticky top-24 p-5 space-y-3 h-fit">
+                    <div className="bg-primary text-background rounded-xl lg:sticky top-24 p-5 space-y-3 h-fit">
                         <h3 className="text-2xl font-semibold">Contact</h3>
                         <ul className="space-y-3">
                             <li className="flex items-center gap-3">

@@ -1,4 +1,4 @@
-import bg from "@/assets/images/team-work.png"
+import bg from "@/assets/images/team-work.svg"
 import MargubMurshedPhoto from "@/assets/images/margub-murshed-photo.png"
 import BlurInText from "@/components/BlurInText";
 import { cn } from "@/lib/utils";
