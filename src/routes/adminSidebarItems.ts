@@ -17,6 +17,11 @@ export const adminSidebarItems: ISidebarItem[] = [
         url: "#",
         items: [
             {
+                title: "Dashboard Home",
+                url: "/dashboard",
+                component: withAuth(Users, [userRoles.ADMIN, userRoles.SUPER_ADMIN] as TRole[])
+            },
+            {
                 title: "Manage Users",
                 url: "/dashboard/users",
                 component: withAuth(Users, [userRoles.ADMIN, userRoles.SUPER_ADMIN] as TRole[])

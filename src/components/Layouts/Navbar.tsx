@@ -54,7 +54,7 @@ export default function Navbar() {
         { href: "/about", label: "About" },
         { href: "/features", label: "Features" },
         { href: "/pricing", label: "Pricing" },
-        { href: "/Contact", label: "Contact" },
+        { href: "/contact", label: "Contact" },
         { href: "/faq", label: "FAQ" },
     ]
     const authNavigationLink = [

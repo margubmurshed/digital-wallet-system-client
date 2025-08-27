@@ -4,9 +4,16 @@ import { Navigate } from "react-router";
 import UserDashboard from "./User/UserDashboard";
 import AgentDashboard from "./Agent/AgentDashboard";
 import AdminDashboard from "./Admin/AdminDashboard";
+import { usePageTitle } from "@/hooks/usePageTitle";
+import { useEffect } from "react";
 
 const Dashboard = () => {
     const { data } = useUserQuery();
+    const title = usePageTitle();
+
+    useEffect(() => {
+        document.title = title;
+    }, [title])
     const role = data?.data.role;
 
     if (role === userRoles.USER) return <UserDashboard />
