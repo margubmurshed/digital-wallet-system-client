@@ -1,69 +1,105 @@
-# React + TypeScript + Vite
+# Digital Wallet System - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **secure, responsive, and role-based digital wallet frontend** built with **React, Redux & Typescript.**
+It provides tailored dashboards for **Users, Agents, and Admins**, enabling seamless financial operations like deposits, withdrawals, transfers, and transaction management.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+### Public Section
+- **Home Page** - Responsive landing page with navigation, hero banner, CTA buttons, footer, and smooth transitions.
+- **About, Features, Pricing, FAQ, Contact Pages** - Informative sections with professional UI.
+- **Authentication** - Role based login/registration (User/Agent), JWT authentication, persisted login state, and logout.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### User Dashboard
+- Wallet overview with balance and recent transactions.
+- Add, Withdraw, Send and Cashout Money.
+- Transaction history with pagination & filtering.
+- Profile Management (update details, change password).
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Agent Dashboard
+- Wallet overview with balance and recent transactions.
+- Cash In money to "USER" role users.
+- Agent transaction list with pagination & filtering.
+- Profile Management (update details, change password).
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Admin Dashboard
+- Overview of last 7 days statistics using cards & charts.
+- Manage users and agents and their wallets.
+- View all transactions.
+- All listing page with pagination & filtering.
+- Profile Management.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### General Features
+- Role-based navigation menu.
+- Form validations
+- Handling loadings & errors.
+- **Toast notifications** for feedbacks and alerts.
+- **Guided Tour** for onboarding using driver.js.
+- Responsive dark/light theme with clean typography and accessible color palette.
+- Performance optimized using lazy loading and skeleton loaders.
+
+
+## Tech Stack
+- React.js
+- Redux Toolkit + RTK Query
+- TypeScript
+- Tailwind CSS
+
+## Installation & Setup
+
+### Clone Repository
+```bash
+  git clone https://github.com/margubmurshed/digital-wallet-system-client.git
+  cd digital-wallet-system-client
+```
+### Install Dependencies
+```bash
+  npm install --force
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Environment Variables
+Create a .env file in the root with the following:
+```env
+  VITE_BASE_URL=http://localhost:5000/api/v1
 ```
+
+### Run Development Server
+```bash
+  npm run dev
+```
+The app will be available at:
+http://localhost:5173
+
+---
+
+## Folder Structure
+
+```Digital Wallet System/
+- src
+- -- components/
+- -- assets/
+- -- config/
+- -- constants/
+- -- contexts/
+- -- providers/
+- -- hooks/
+- -- lib/
+- -- pages/
+- -- redux/
+- -- routes/
+- -- types/
+- -- utils/
+- -- main.tsx
+```
+
+## Developer
+**Name:** Margub Murshed
+**Role:** Full Stack Developer
+**Location:** Dhaka, Bangladesh
+
+**Contact:**
+- **Email:** murshedmargub@gmail.com
+- **LinkedIn:** [linkedin.com/in/margubmurshed](https://linkedin.com/in/margubmurshed)
+- **Facebook:** [facebook.com/margub32](https://facebook.com/margub32)
