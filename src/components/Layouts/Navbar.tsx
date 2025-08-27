@@ -1,5 +1,6 @@
-import { LogOut } from "lucide-react"
+import { ChevronDown, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import {
     NavigationMenu,
     NavigationMenuItem,
@@ -23,6 +24,7 @@ import { ModeToggler } from "../ModeToggler"
 import { useEffect } from "react"
 import { createLandingTour } from "@/driverTour"
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils"
 
 export default function Navbar() {
     const { data, isLoading: userLoading } = useUserQuery(undefined);
@@ -280,11 +282,34 @@ export default function Navbar() {
                             ? <Button variant="outline" size="sm" className="text-sm" disabled><ButtonLoader /></Button>
                             : (data?.data?.email)
                                 ? (
-                                    <>
-                                        <Button onClick={handleLogout} variant="destructive" size="sm" className="text-sm cursor-pointer" disabled={logoutLoading}>
-                                            {logoutLoading ? <ButtonLoader /> : "Logout"}
-                                            <LogOut />
-                                        </Button>
+                                    <><DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button variant={
+                                                data.data.role === "USER"
+                                                    ? "outline"
+                                                    : data.data.role === "AGENT"
+                                                        ? "default"
+                                                        : "destructive"
+                                            }>
+                                                {data.data.role.split("_").join(" ")}
+                                                <ChevronDown />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="w-56 mr-5" align="start">
+                                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                            <div className="px-2">
+                                                <h3 className="font-semibold">{data.data.name}</h3>
+                                                <p className={cn("text-sm", {
+                                                    "truncate": data.data.email.length > 10
+                                                })}>{data.data.email}</p>
+                                            </div>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem variant="destructive" onClick={handleLogout} disabled={logoutLoading}>
+                                                {logoutLoading ? <ButtonLoader /> : "Sign Out"}
+                                                <DropdownMenuShortcut><LogOut className="text-red-500" /></DropdownMenuShortcut>
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                     </>
                                 )
                                 : <Button size="sm" className="text-sm" asChild disabled={userLoading}>

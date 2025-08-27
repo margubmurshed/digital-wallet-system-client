@@ -1,6 +1,6 @@
 import FullPageLoader from "@/components/FullPageLoader";
 import { useUserQuery } from "@/redux/features/auth/auth.api";
-import bg from "@/assets/images/user-dashboard-background-image.jpg"
+// import bg from "@/assets/images/user-dashboard-background-image.jpg"
 import { Badge } from "@/components/ui/badge";
 import { BadgeCheckIcon, PlusCircle } from "lucide-react";
 import { formatAmount } from "@/utils/formatAmount";
@@ -34,9 +34,15 @@ const AgentDashboard = () => {
     return (
         <div>
             <Navbar />
-            <div className="border max-h-60 relative">
-                <img src={bg} alt="user-dashboard-bg-image" className="absolute w-full h-full bg-center" />
-                <div className="container mx-auto text-center gap-3 flex flex-col items-center mt-40 z-10 relative">
+            <div className="max-h-60 relative">
+                <div
+                    className="absolute inset-0 z-0"
+                    style={{
+                        backgroundImage: `radial-gradient(circle 500px at 50% 100px, rgba(139,92,246,0.4), transparent)`,
+                        backgroundSize: "100% 100%",
+                    }}
+                />
+                <div className="container mx-auto text-center gap-3 flex flex-col items-center pt-40 z-10 relative">
                     <div className="w-32 h-32 rounded-full border-8 border-primary bg-background">
                         <img
                             src={"https://github.com/shadcn.png"}
@@ -47,7 +53,7 @@ const AgentDashboard = () => {
                     <h2 className="text-3xl font-bold">{user?.name}</h2>
                     <Badge
                         variant="secondary"
-                        className="bg-blue-500 text-white dark:bg-blue-600 capitalize"
+                        className="bg-purple-500 text-white dark:bg-purple-600 capitalize"
                     >
                         <BadgeCheckIcon />
                         {user?.role.split("_").join(" ").toLowerCase()}
@@ -98,7 +104,7 @@ const AgentDashboard = () => {
                         <TabsList className="self-center">
                             <TabsTrigger value="profile">Profile</TabsTrigger>
                             <TabsTrigger value="transactions">Transaction History</TabsTrigger>
-                            <TabsTrigger value="transactions">Settings</TabsTrigger>
+                            <TabsTrigger value="settings">Settings</TabsTrigger>
                         </TabsList>
                         <TabsContent value="profile">
                             <Profile />
