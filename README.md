@@ -96,7 +96,9 @@ http://localhost:5173
 
 ## Developer
 **Name:** Margub Murshed
+
 **Role:** Full Stack Developer
+
 **Location:** Dhaka, Bangladesh
 
 **Contact:**
