@@ -154,7 +154,7 @@ const Users = () => {
                                             >
                                                 {user.role.split("_").join(" ").toLowerCase()}
                                             </Badge>
-                                            {user.role.split("_").join(" ").toLowerCase()}</TableCell>
+                                        </TableCell>
                                         <TableCell className="w-1/2">{user.email}</TableCell>
                                         <TableCell className="w-1/2">{user.phone}</TableCell>
                                         <TableCell className="w-1/2" id="update-status">
