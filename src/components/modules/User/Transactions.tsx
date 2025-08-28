@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectValue } from "@/components/ui/
 import { SelectTrigger } from "@radix-ui/react-select";
 import { buttonVariants } from "@/components/ui/button";
 import { useUserQuery } from "@/redux/features/auth/auth.api";
+import type { ITransactionResponseData } from "@/types/wallet.types";
 
 const Transactions = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -22,6 +23,26 @@ const Transactions = () => {
     const trxTypes = [];
     if (userData?.data.role === "USER") trxTypes.push("CASH_IN", "CASH_OUT", "SEND_MONEY", "ADD_MONEY", "WITHDRAW")
     else if (userData?.data.role === "AGENT") trxTypes.push("CASH_IN", "CASH_OUT");
+
+    const makeAmount = (transaction: ITransactionResponseData) => {
+        let sign = "";
+        let className = {};
+        if (userData?.data.role === "USER") {
+            sign = transaction.type === "ADD_MONEY" || transaction.type === "CASH_IN" ? "+ " : "- ";
+            className = {
+                "text-green-500": transaction.type === "ADD_MONEY" || transaction.type === "CASH_IN"
+            }
+        } else if (userData?.data.role === "AGENT") {
+            sign = transaction.type === "CASH_OUT" ? "+" : "-"
+            className = {
+                "text-green-500": transaction.type === "CASH_OUT"
+            }
+        }
+        return {
+            amount: `${sign} ${transaction.amount.toFixed(2)}`,
+            className
+        }
+    }
 
     return (
         <div className="w-full p-6 bg-background text-foreground mx-auto">
@@ -88,23 +109,20 @@ const Transactions = () => {
                                     <TableRow key={transaction._id}>
                                         <TableCell className="w-1/2">{transaction._id}</TableCell>
                                         <TableCell className="w-1/2 space-y-2">
-                                            <p className="font-semibold">{transaction.to?._id === userData?.data._id ? transaction.from?.name : transaction.to?.name}</p>
+                                            <p className="font-semibold">{transaction.to?.name}</p>
                                             <p>
                                                 <Badge
                                                     variant="secondary"
                                                     className="bg-blue-500 text-white dark:bg-blue-600 capitalize"
                                                 >
                                                     <Phone className="mr-1" />
-                                                    {transaction.to?._id === userData?.data._id ? transaction.from?.phone : transaction.to?.phone}
+                                                    {transaction.to?.phone}
                                                 </Badge>
                                             </p>
                                         </TableCell>
                                         <TableCell className="w-1/2 capitalize">{transaction.type.split("_").join(" ").toLowerCase()}</TableCell>
-                                        <TableCell className={cn("w-1/2 text-red-500 font-semibold", {
-                                            "text-green-500": transaction.type === "ADD_MONEY" || transaction.type === "CASH_IN"
-                                        })}>
-                                            {transaction.type === "ADD_MONEY" || transaction.type === "CASH_IN" ? "+ " : "- "}
-                                            {transaction.amount.toFixed(2)}
+                                        <TableCell className={cn("w-1/2 text-red-500 font-semibold", makeAmount(transaction).className)}>
+                                            {makeAmount(transaction).amount}
                                         </TableCell>
                                         <TableCell className="w-1/2">
                                             {transaction.fee}
