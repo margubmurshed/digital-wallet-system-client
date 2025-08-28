@@ -80,7 +80,7 @@ export function RegisterForm({
                                                 <FormControl>
                                                     <Input placeholder="Enter your full name" {...field} required />
                                                 </FormControl>
-                                                <FormMessage />
+                                                <FormMessage className="text-xs break-words whitespace-pre-wrap" />
                                             </FormItem>
                                         )}
                                     />
@@ -95,7 +95,7 @@ export function RegisterForm({
                                                 <FormControl>
                                                     <EmailInput {...field} />
                                                 </FormControl>
-                                                <FormMessage />
+                                                <FormMessage className="text-xs break-words whitespace-pre-wrap" />
                                             </FormItem>
                                         )}
                                     />
@@ -110,7 +110,7 @@ export function RegisterForm({
                                                 <FormControl>
                                                     <Input type="tel" placeholder="Example : 01988474979" {...field} required />
                                                 </FormControl>
-                                                <FormMessage />
+                                                <FormMessage className="text-xs break-words whitespace-pre-wrap" />
                                             </FormItem>
                                         )}
                                     />
@@ -125,7 +125,7 @@ export function RegisterForm({
                                                 <FormControl>
                                                     <RegisterPasswordInput {...field} />
                                                 </FormControl>
-                                                <FormMessage />
+                                                <FormMessage className="text-xs break-words whitespace-pre-wrap" />
                                             </FormItem>
                                         )}
                                     />

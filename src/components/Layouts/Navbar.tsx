@@ -21,7 +21,7 @@ import type { TRole } from "@/types"
 import { Skeleton } from "../ui/skeleton"
 import ButtonLoader from "../ButtonLoader"
 import { ModeToggler } from "../ModeToggler"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { createLandingTour } from "@/driverTour"
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils"
@@ -29,6 +29,7 @@ import { cn } from "@/lib/utils"
 export default function Navbar() {
     const { data, isLoading: userLoading } = useUserQuery(undefined);
     const [logout, { isLoading: logoutLoading }] = useLogoutMutation();
+    const [open, setOpen] = useState(false);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -79,7 +80,7 @@ export default function Navbar() {
                     {/* Left side */}
                     <div className="flex items-center gap-2">
                         {/* Mobile menu trigger */}
-                        <Popover>
+                        <Popover open={open} onOpenChange={setOpen}>
                             <PopoverTrigger asChild>
                                 <Button
                                     className="group size-8 md:hidden"
@@ -118,47 +119,13 @@ export default function Navbar() {
                                     <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
                                         {navigationLinks.map((link, index) => (
                                             <NavigationMenuItem key={index} className="w-full">
-                                                {/* {link.submenu ? (
-                                                <>
-                                                    <div className="text-muted-foreground px-2 py-1.5 text-xs font-medium">
+                                                <NavigationMenuLink onClick={() => setOpen(false)}>
+                                                    <NavLink to={link.href} className={({ isActive }) => cn({
+                                                        "text-blue-500": isActive
+                                                    })}>
                                                         {link.label}
-                                                    </div>
-                                                    <ul>
-                                                        {link.items.map((item, itemIndex) => (
-                                                            <li key={itemIndex}>
-                                                                <NavigationMenuLink
-                                                                    href={item.href}
-                                                                    className="py-1.5"
-                                                                >
-                                                                    {item.label}
-                                                                </NavigationMenuLink>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </>
-                                            ) : (
-                                            )} */}
-                                                <NavigationMenuLink href={link.href} className="py-1.5">
-                                                    {link.label}
+                                                    </NavLink>
                                                 </NavigationMenuLink>
-                                                {/* Add separator between different types of items
-                                            {index < navigationLinks.length - 1 &&
-                                                // Show separator if:
-                                                // 1. One is submenu and one is simple link OR
-                                                // 2. Both are submenus but with different types
-                                                ((!link.submenu &&
-                                                    navigationLinks[index + 1].submenu) ||
-                                                    (link.submenu &&
-                                                        !navigationLinks[index + 1].submenu) ||
-                                                    (link.submenu &&
-                                                        navigationLinks[index + 1].submenu &&
-                                                        link.type !== navigationLinks[index + 1].type)) && (
-                                                    <div
-                                                        role="separator"
-                                                        aria-orientation="horizontal"
-                                                        className="bg-border -mx-1 my-1 h-px w-full"
-                                                    />
-                                                )} */}
                                             </NavigationMenuItem>
                                         ))}
                                     </NavigationMenuList>
@@ -175,13 +142,14 @@ export default function Navbar() {
                                 <NavigationMenuList className="gap-2">
                                     {navigationLinks.map((link, index) => (
                                         <NavigationMenuItem key={index}>
-                                            <NavLink to={link.href} className={({ isActive }) => cn({
-                                                "text-blue-500": isActive
-                                            })}>
-                                                <NavigationMenuLink>
+
+                                            <NavigationMenuLink>
+                                                <NavLink to={link.href} className={({ isActive }) => cn({
+                                                    "text-blue-500": isActive
+                                                })}>
                                                     {link.label}
-                                                </NavigationMenuLink>
-                                            </NavLink>
+                                                </NavLink>
+                                            </NavigationMenuLink>
                                         </NavigationMenuItem>
                                     ))}
                                 </NavigationMenuList>

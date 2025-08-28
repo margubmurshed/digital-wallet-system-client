@@ -72,7 +72,7 @@ function Footer() {
             <div className="max-w-7xl mx-auto flex flex-col items-center relative z-10">
                 <div className="mb-6 flex items-center justify-center gap-2">
                     <Logo />
-                    <span className="text-gray-900 dark:text-white text-3xl font-bold tracking-wide">
+                    <span className="text-gray-900 dark:text-white text-xl md:text-3xl font-bold tracking-wide">
                         Digital Wallet System
                     </span>
                 </div>

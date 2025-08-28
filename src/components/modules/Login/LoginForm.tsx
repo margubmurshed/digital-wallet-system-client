@@ -72,7 +72,7 @@ export function LoginForm({
                                                     <FormControl>
                                                         <Input type="tel" placeholder="Example : 01988474979" {...field} required />
                                                     </FormControl>
-                                                    <FormMessage />
+                                                    <FormMessage className="text-xs break-words whitespace-pre-wrap" />
                                                 </FormItem>
                                             )}
                                         />
@@ -87,7 +87,7 @@ export function LoginForm({
                                                     <FormControl>
                                                         <PasswordInput {...field} />
                                                     </FormControl>
-                                                    <FormMessage />
+                                                    <FormMessage className="text-xs break-words whitespace-pre-wrap" />
                                                 </FormItem>
                                             )}
                                         />

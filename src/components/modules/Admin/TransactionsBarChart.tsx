@@ -15,13 +15,12 @@ import {
 } from "@/components/ui/chart"
 import { TrendingDown, TrendingUp } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useGetStatsQuery } from "@/redux/features/stats/stats.api"
 import { format, subDays } from "date-fns"
+import { useDashboardStats } from "@/hooks/useDashboardStats"
 
 
 export function TransactionsBarChart() {
-    const { data } = useGetStatsQuery(null);
-
+    const { data } = useDashboardStats();
     const stats = data?.data;
     const chartConfig = {
         values: {

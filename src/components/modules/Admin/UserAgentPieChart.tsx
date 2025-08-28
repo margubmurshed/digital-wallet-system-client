@@ -14,7 +14,7 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart"
 import { format, subDays } from "date-fns"
-import { useGetStatsQuery } from "@/redux/features/stats/stats.api"
+import { useDashboardStats } from "@/hooks/useDashboardStats"
 
 const description = `${format(subDays(new Date(), 6), "dd MMM yyyy")} - ${format(new Date(), "dd MMM yyyy")}`;
 
@@ -30,7 +30,7 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function UserAgentPieChart() {
-    const { data } = useGetStatsQuery(null);
+    const { data } = useDashboardStats();
     const stats = data?.data;
 
     const chartData = [
