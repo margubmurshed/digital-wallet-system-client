@@ -66,7 +66,7 @@ export function UsersBarChart() {
                     "text-gray-500": growthNumber === 0,
                     "text-red-500": growthNumber < 0
                 })}>
-                    {`Trending ${growthNumber >= 0 ? "up" : "down"} - ${stats?.growth.users} this month`}
+                    {`Trending ${growthNumber >= 0 ? "up" : "down"} - ${stats?.growth.users} this week`}
                     {growthNumber >= 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingDown />}
                 </div>
                 <div className="text-muted-foreground leading-none">
