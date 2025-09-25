@@ -33,6 +33,7 @@ export function LoginForm({
         },
     })
 
+
     async function onSubmit(values: z.infer<typeof loginFormSchema>) {
 
         try {
@@ -102,6 +103,14 @@ export function LoginForm({
                                     <Link to="/register" state={{ from: location.state }} className="underline underline-offset-4">
                                         Sign up
                                     </Link>
+                                </div>
+                                <div>
+                                    <h3 className="text-center font-semibold mb-3">Login as</h3>
+                                    <div className="flex gap-3 justify-center flex-wrap text-xs text-muted-foreground">
+                                        <Button onClick={() => onSubmit({ phone: "+8801988474945", password: "Mm9@322020" })}>User</Button>
+                                        <Button onClick={() => onSubmit({ phone: "01988474947", password: "Mm9@322020" })}>Agent</Button>
+                                        <Button onClick={() => onSubmit({ phone: "01988474979", password: "Mm9@322020" })}>Admin</Button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
