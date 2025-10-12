@@ -70,7 +70,7 @@ export default function Navbar() {
     }
 
     return (
-        <header className="p-2 fixed w-full top-0 z-50">
+        <header className="p-2 fixed container left-1/2 right-1/2 -translate-x-1/2 top-0 z-50">
             <motion.div
                 initial={{ opacity: 0, y: -40 }}
                 animate={{ opacity: 1, y: 0 }}
