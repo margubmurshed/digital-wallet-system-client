@@ -13,7 +13,7 @@ import BlurInText from "@/components/BlurInText";
 const Hero = () => {
     return (
         <section>
-            <div className="min-h-screen w-full relative bg-white py-10">
+            <div className="min-h-screen w-full relative bg-white pt-40 pb-10 -mt-20">
                 {/* Cool Blue Glow Top */}
                 <div
                     className="absolute inset-0 z-0 dark:hidden"
